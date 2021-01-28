@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace Assignment1
+namespace Assignment2
 {
 
-    abstract class Animal
+    abstract class Animal : IAnimal
     {
-        public int Id { get; set; }
-        public string Name { get; private set; }
-        public int Age { get; private set; }
-        public Genders Gender { get; private set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public Genders Gender { get; set; }
+
 
         public Image Image { get; private set; }   //An image showing the animal
+
 
 
         /// <summary>
@@ -26,20 +28,27 @@ namespace Assignment1
         }
 
 
-
         /// <summary>
         /// Prints a list of all animal-attributes
         /// </summary>
         public virtual new List<string> ToString()
         {
             List<string> text = new List<string>();
-            text.Add($"ID:  {Id}");
+            text.Add($"ID:  {ID}");
             text.Add($"Name:  {Name}");
             text.Add($"Age:  {Age} years");
             text.Add($"Gender:  {Gender}");
+            text.Add($"Species: {GetSpecies()}");
 
             return text;
         }
+
+
+        public abstract EaterType GetEaterType();
+
+        public abstract FoodSchedule GetFoodSchedule();
+
+        public abstract string GetSpecies();
     }
 
 }

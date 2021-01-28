@@ -6,13 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Assignment1
+namespace Assignment2
 {
     /// <summary>
     /// The class responsible for creating animals from user inputed data.
     /// </summary>
     class AnimalFactory
     {
+        private static Random random = new Random();
+
 
         /// <summary>
         /// Tries to create an animal from user inputed data.
@@ -85,5 +87,142 @@ namespace Assignment1
             animalManager.AddAnimal(animal);
         }
 
+
+        /// <summary>
+        /// Creates a random animal with random properties
+        /// </summary>
+        /// <param name="animalManager"></param>
+        public void CreateRandomAnimal(AnimalManager animalManager)
+        {
+            Animal animal = null;
+
+            string name = RandomString(3, 8, true);
+            int age = random.Next(0, 99);
+            Genders gender = RandomEnum<Genders>();
+
+            Categorys category = RandomEnum<Categorys>();
+            Species species = RandomEnum<Species>(category);
+
+            Console.WriteLine(category);
+            Console.WriteLine(species);
+
+            switch (category)
+            {
+                case Categorys.Insect:
+                    {
+                        int numberOfLegs = random.Next(2, 8);
+                        bool canFly = Convert.ToBoolean(random.Next(0, 2));
+
+                        switch (species)
+                        {
+                            case Species.Ant:
+                                {
+                                    bool isQueen = Convert.ToBoolean(random.Next(0, 2));
+
+                                    animal = new Ant(name, age, gender, null, numberOfLegs, canFly, isQueen);     //Creates an ant
+                                }
+                                break;
+
+                            case Species.Butterfly:
+                                {
+                                    Color mainWingColor = RandomColor();
+
+                                    animal = new Butterfly(name, age, gender, null, numberOfLegs, canFly, mainWingColor);    //Creates a butterfly
+                                }
+                                break;
+                        }
+                    }
+                    break;
+
+                case Categorys.Mamal:
+                    {
+                        int numberOfTeeth = random.Next(0, 30);
+                        Color furColor = RandomColor();
+
+                        switch (species)
+                        {
+                            case Species.Dog:
+                                {
+                                    string breed = RandomString(4, 12, true);
+
+                                    animal = new Dog(name, age, gender, null, numberOfTeeth, furColor, breed);   //Creates a dog
+                                }
+                                break;
+
+                            case Species.Monkey:
+                                {
+                                    int tailLength = random.Next(0, 200);
+
+                                    animal = new Monkey(name, age, gender, null, numberOfTeeth, furColor, tailLength);     //Creates a monkey
+                                }
+                                break;
+                        }
+                    }
+                    break;
+            }
+
+            animalManager.AddAnimal(animal);
+        }
+
+        /// <summary>
+        /// Returns a random string of characters
+        /// </summary>
+        private string RandomString(int minLength, int maxLength, bool firstUpper)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            int length = random.Next(minLength, maxLength);
+            char first = 'a';
+            int charCount = 26;
+
+            for (int i = 0; i < length; i++)
+            {
+                char c = (char)random.Next(first, first + charCount);
+                sb.Append(c);
+            }
+
+            if (firstUpper) { sb[0] = char.ToUpper(sb[0]); }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns a random value from enum of type T
+        /// </summary>
+        private T RandomEnum<T>()
+        {
+            if (typeof(T).IsEnum)
+            {
+                int i = random.Next(0, Enum.GetValues(typeof(T)).Length);
+                return (T)(object)i;
+            }
+            throw new ArgumentException("T must be an enumerated type");
+        }
+
+        /// <summary>
+        /// Returns a random value from enum of type T
+        /// </summary>
+        private T RandomEnum<T>(Categorys fromCategory)
+        {
+            if (typeof(T).IsEnum)
+            {
+                int i = random.Next(0, 2) + (int)fromCategory * 2;
+                return (T)(object)i;
+            }
+            throw new ArgumentException("T must be an enumerated type");
+        }
+
+        /// <summary>
+        /// Retruns a random color
+        /// </summary>
+        private Color RandomColor()
+        {
+            int r, g, b;
+            r = random.Next(0, 256);
+            g = random.Next(0, 256);
+            b = random.Next(0, 256);
+
+            return Color.FromArgb(r, g, b);
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace Assignment1
+namespace Assignment2
 {
     class Dog : Mammal
     {
@@ -23,10 +23,34 @@ namespace Assignment1
         public override List<string> ToString()
         {
             List<string> text = base.ToString();
-            text.Add($"Species:  Dog");
             text.Add($"Breed:  {Breed}");
 
             return text;
+        }
+
+
+        /// <summary>
+        /// Returns this animal's EaterType
+        /// </summary>
+        public override EaterType GetEaterType()
+        {
+            return EaterType.Omnivorous;
+        }
+
+        /// <summary>
+        /// Returns this animal's FoodSchedules
+        /// </summary>
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return new FoodSchedule("Morning: 4 cups dog food (pork)", "Lunch: 3 cups dog food (plant based)", "Evening: 4 cups dog food (beef)");
+        }
+
+        /// <summary>
+        /// Returns this animal's species-name
+        /// </summary>
+        public override string GetSpecies()
+        {
+            return "Dog";
         }
     }
 

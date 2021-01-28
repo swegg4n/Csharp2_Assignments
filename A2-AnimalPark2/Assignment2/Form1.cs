@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Assignment1
+namespace Assignment2
 {
     /// <summary>
     /// Class for handeling all GUI and user I/O
@@ -30,9 +30,9 @@ namespace Assignment1
             animalManager = new AnimalManager();
             animalFactory = new AnimalFactory();
 
-
             AddCategoryItems();
             AddGenderItems();
+            AddSortingMethods();
 
             speciesMapping = new Dictionary<Categorys, Species[]>   //Creates a mapping of how the species are related to the categorys, for use in dropdown lists
             {
@@ -59,7 +59,7 @@ namespace Assignment1
 
 
         /// <summary>
-        /// Add animal button - Tries to create an animal and add it to the list of animals.
+        /// Add animal button - Tries to create an animal and adds it to the list of animals.
         /// </summary>
         private void Animal_add_input_Click(object sender, EventArgs e)
         {
@@ -71,6 +71,7 @@ namespace Assignment1
                 {
                     animalFactory.CreateAnimal(this, loadedImage, animalManager, (Categorys)GetSelectedCategory(), (Species)GetSelectedSpecies());
                     animalManager.FillAnimalsListView(Animals_list);
+                    List_sort_input.SelectedIndex = -1;
                     MessageBox.Show("Animal successfully created!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -78,6 +79,16 @@ namespace Assignment1
             {
                 MessageBox.Show(errorMsg, "Assert fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Add random animal button - Creates a random animal and adds it to the list of animals
+        /// </summary>
+        private void Animal_addRandom_input_Click(object sender, EventArgs e)
+        {
+            animalFactory.CreateRandomAnimal(animalManager);
+            animalManager.FillAnimalsListView(Animals_list);
+            List_sort_input.SelectedIndex = -1;
         }
 
 
@@ -154,7 +165,6 @@ namespace Assignment1
                 AddSpeciesItems();
 
             ChangeCategoryView(GetSelectedCategory());     //Changes to view the correct category controls
-
         }
 
         /// <summary>
@@ -235,20 +245,28 @@ namespace Assignment1
         }
 
         /// <summary>
-        /// Prints the image associated with the <paramref name="animal"/>. Called when the animal in the list is selected.
+        /// Prints the image associated with the <paramref name="animal"/> and displayes the animals feeding schedule
+        /// Called when the animal in the list is selected.
         /// </summary>
         /// <param name="animal">The animal to display more information about</param>
         private void DisplayAnimalData(Animal animal)
         {
             AnimalImage.Image = animal.Image;
+
+            Animal_dietType_input.Text = animal.GetEaterType().ToString();
+            Animal_dietinfo_input.Text = animal.GetFoodSchedule().ToString();
         }
 
         /// <summary>
-        /// Clears the image displaying the selected animal. Called when the animal in the list is deselected.
+        /// Clears the image displaying the selected animal and the animal feeding schedule-information
+        /// Called when the animal in the list is deselected.
         /// </summary>
         private void ClearAnimalData()
         {
             AnimalImage.Image = null;
+
+            Animal_dietType_input.Text = "";
+            Animal_dietinfo_input.Text = "";
         }
 
         /// <summary>
@@ -348,6 +366,14 @@ namespace Assignment1
         }
 
         /// <summary>
+        /// Adds all sorting methods to the dropdown list
+        /// </summary>
+        private void AddSortingMethods()
+        {
+            List_sort_input.Items.AddRange(Enum.GetNames(typeof(SortMethods)));
+        }
+
+        /// <summary>
         /// Hides all controls but the controls relevant to <paramref name="category"/>
         /// </summary>
         private void ChangeCategoryView(Categorys? category)
@@ -424,6 +450,18 @@ namespace Assignment1
             }
             return null;
         }
+
+        /// <summary>
+        /// Tries to change how the animals list is sorted
+        /// </summary>
+        private void List_sort_input_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (List_sort_input.SelectedIndex != -1)
+            {
+                animalManager.SortAnimals(Animals_list, (SortMethods)List_sort_input.SelectedIndex);
+            }
+        }
+
     }
 
 }

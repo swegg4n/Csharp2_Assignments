@@ -54,14 +54,18 @@
     <Compile Include="AnimalHierarchy\AnimalCategorys\AnimalSpecies\Monkey.cs" />
     <Compile Include="AnimalHierarchy\AnimalCategorys\Insect.cs" />
     <Compile Include="AnimalHierarchy\AnimalCategorys\Mammal.cs" />
+    <Compile Include="AnimalHierarchy\IAnimal.cs" />
     <Compile Include="AnimalManager.cs" />
     <Compile Include="AssertManager.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="FoodSchedule.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Comparers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

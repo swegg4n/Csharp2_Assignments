@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace Assignment1
+namespace Assignment2
 {
     abstract class Mammal : Animal
     {

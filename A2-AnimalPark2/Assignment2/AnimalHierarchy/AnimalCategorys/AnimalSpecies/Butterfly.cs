@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace Assignment1
+namespace Assignment2
 {
     class Butterfly : Insect
     {
@@ -23,10 +23,34 @@ namespace Assignment1
         public override List<string> ToString()
         {
             List<string> text = base.ToString();
-            text.Add($"Species:  Butterfly");
             text.Add($"Main wing color:  ({ MainWingColor.R},{ MainWingColor.G},{ MainWingColor.B})");
 
             return text;
+        }
+
+
+        /// <summary>
+        /// Returns this animal's EaterType
+        /// </summary>
+        public override EaterType GetEaterType()
+        {
+            return EaterType.Herbivore;
+        }
+
+        /// <summary>
+        /// Returns this animal's FoodSchedules
+        /// </summary>
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return new FoodSchedule();  //no feeding schedule
+        }
+
+        /// <summary>
+        /// Returns this animal's species-name
+        /// </summary>
+        public override string GetSpecies()
+        {
+            return "Butterfly";
         }
     }
 

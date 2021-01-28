@@ -2,13 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Assignment1
+namespace Assignment2
 {
-    public enum Genders { Male, Female, Unknown };
-    public enum Categorys { Insect, Mamal }
-    public enum Species { Ant, Butterfly, Dog, Monkey }
-
-
     /// <summary>
     /// The class responsible for managing the animals created.
     /// </summary>
@@ -33,16 +28,19 @@ namespace Assignment1
         /// </summary>
         public void AddAnimal(Animal animal)
         {
-            animal.Id = animalID++;
+            animal.ID = animalID++;
             animals.Add(animal);
         }
 
         /// <summary>
-        /// Fetches the animal at position "<paramref name="index"/>" in the animal-list
+        /// Tries to get the animal at position "<paramref name="index"/>" from the animal-list
         /// </summary>
         public Animal GetAnimalAt(int index)
         {
-            return animals[index];
+            if (animals != null && index >= 0 && index < animalsCount)
+                return animals[index];
+
+            throw new IndexOutOfRangeException();
         }
 
         /// <summary>
@@ -65,6 +63,41 @@ namespace Assignment1
                 for (int c = 0; c < animalData.Count; c++)
                     listView.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
             }
+        }
+
+
+        /// <summary>
+        /// Sorts the animals based on <paramref name="sortMethod"/>
+        /// Fills the listview after sort
+        /// </summary>
+        public void SortAnimals(ListView listView, SortMethods sortMethod)
+        {
+            Comparer<Animal> comparer = null;
+
+            switch (sortMethod)
+            {
+                case SortMethods.ID:
+                    comparer = new IDComparer();
+                    break;
+
+                case SortMethods.Name:
+                    comparer = new NameComparer();
+                    break;
+
+                case SortMethods.Age:
+                    comparer = new AgeComparer();
+                    break;
+
+                case SortMethods.Species:
+                    comparer = new SpeciesComparer();
+                    break;
+
+                default:
+                    return;
+            }
+
+            animals.Sort(comparer);
+            FillAnimalsListView(listView);
         }
     }
 
