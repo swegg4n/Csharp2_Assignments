@@ -1,4 +1,4 @@
-﻿namespace Assignment2
+﻿namespace Assignment3
 {
     /// <summary>
     /// Interface implemented by Animal

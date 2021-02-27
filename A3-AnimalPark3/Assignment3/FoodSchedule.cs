@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Assignment2
+namespace Assignment3
 {
     /// <summary>
     /// Class containing data and helper-methods regarding animal feeding routines

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Assignment2
+namespace Assignment3
 {
     /// <summary>
     /// Class for handeling all GUI and user I/O
@@ -20,6 +20,9 @@ namespace Assignment2
         private Dictionary<Categorys, Control[]> categoryControlsMapping;
         private Dictionary<Species, Control[]> speciesControlsMapping;
 
+        FoodForm foodForm;
+        FoodManager foodManager;
+
 
         /// <summary>
         /// Constructor - Initializes the animalManager, animalFactory and the mappings. Also resets the displayed controls.
@@ -29,6 +32,7 @@ namespace Assignment2
             InitializeComponent();
             animalManager = new AnimalManager();
             animalFactory = new AnimalFactory();
+            foodManager = new FoodManager();
 
             AddCategoryItems();
             AddGenderItems();
@@ -55,6 +59,8 @@ namespace Assignment2
 
             ChangeCategoryView(null);     //Resets the category to not show be shown or selected
             ChangeSpeciesView(null);      //Resets the species to not show be shown or selected
+
+            Animal_remove_input.Enabled = false;
         }
 
 
@@ -69,8 +75,9 @@ namespace Assignment2
                 //optional to choose image
                 if (loadedImage != null || (loadedImage == null && MessageBox.Show($"No image chosen, continue anyways?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
                 {
-                    animalFactory.CreateAnimal(this, loadedImage, animalManager, (Categorys)GetSelectedCategory(), (Species)GetSelectedSpecies());
-                    animalManager.FillAnimalsListView(Animals_list);
+                    Animal animal = animalFactory.CreateAnimal(this, loadedImage, animalManager, (Categorys)GetSelectedCategory(), (Species)GetSelectedSpecies());
+                    animalManager.AddAnimal(animal);
+                    FillAnimalsListView(Animals_list);
                     List_sort_input.SelectedIndex = -1;
                     MessageBox.Show("Animal successfully created!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -86,8 +93,40 @@ namespace Assignment2
         /// </summary>
         private void Animal_addRandom_input_Click(object sender, EventArgs e)
         {
-            animalFactory.CreateRandomAnimal(animalManager);
-            animalManager.FillAnimalsListView(Animals_list);
+            Animal animal = animalFactory.CreateRandomAnimal(animalManager);
+            animalManager.AddAnimal(animal);
+
+            FillAnimalsListView(Animals_list);
+            List_sort_input.SelectedIndex = -1;
+        }
+
+        private void Animal_change_input_Click(object sender, EventArgs e)
+        {
+            string errorMsg = "";
+            if (AssertAll(ref errorMsg) && AssertAnimalSelected())
+            {
+                int selectedIndex = Animals_list.SelectedIndices[0];
+
+                Animal animal = animalFactory.CreateAnimal(this, loadedImage, animalManager, (Categorys)GetSelectedCategory(), (Species)GetSelectedSpecies());
+                animal.ID = animalManager.GetAt(selectedIndex).ID;
+                animalManager.ChangeAt(animal, selectedIndex);
+
+                FillAnimalsListView(Animals_list);
+                List_sort_input.SelectedIndex = -1;
+                MessageBox.Show("Animal successfully changed!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show(errorMsg, "Assert fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Animal_remove_input_Click(object sender, EventArgs e)
+        {
+            Animal_remove_input.Enabled = false;
+            animalManager.RemoveAt(Animals_list.SelectedIndices[0]);
+
+            FillAnimalsListView(Animals_list);
             List_sort_input.SelectedIndex = -1;
         }
 
@@ -153,6 +192,41 @@ namespace Assignment2
                 return false;
             }
 
+        }
+
+        private bool AssertAnimalSelected()
+        {
+            if (Animals_list.SelectedIndices != null && Animals_list.SelectedIndices.Count > 0 && Animals_list.SelectedIndices[0] != -1)
+            {
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("No animal selected", "Assert fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Clears and fills <paramref name="listView"/> with the animals from the animal-list
+        /// </summary>
+        public void FillAnimalsListView(ListView listView)
+        {
+            listView.Items.Clear();
+            int columns = listView.Columns.Count;
+
+            for (int i = 0; i < animalManager.Count; i++)
+            {
+                List<string> animalData = animalManager.GetAt(i).ToString();
+
+                for (int c = columns; c < animalData.Count; c++)
+                    listView.Columns.Add("");   //Adds new columns if necessary
+
+                listView.Items.Add(new ListViewItem(animalData.ToArray()));    //Adds a new entry to the list of created animals
+
+                for (int c = 0; c < animalData.Count; c++)
+                    listView.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
+            }
         }
 
 
@@ -236,11 +310,13 @@ namespace Assignment2
         {
             if (Animals_list.SelectedIndices != null && Animals_list.SelectedIndices.Count > 0 && Animals_list.SelectedIndices[0] != -1)
             {
-                DisplayAnimalData(animalManager.GetAnimalAt(Animals_list.SelectedIndices[0]));  //use the selected index to find which animal in the list to display
+                DisplayAnimalData(animalManager.GetAt(Animals_list.SelectedIndices[0]));  //use the selected index to find which animal in the list to display
+                Animal_remove_input.Enabled = true;
             }
             else
             {
                 ClearAnimalData();
+                Animal_remove_input.Enabled = false;
             }
         }
 
@@ -458,10 +534,55 @@ namespace Assignment2
         {
             if (List_sort_input.SelectedIndex != -1)
             {
-                animalManager.SortAnimals(Animals_list, (SortMethods)List_sort_input.SelectedIndex);
+                animalManager.SortAnimals((SortMethods)List_sort_input.SelectedIndex);
+                FillAnimalsListView(Animals_list);
             }
         }
 
+        private void Animal_foodItems_input_Click(object sender, EventArgs e)
+        {
+            if (foodForm != null)
+                foodForm.Close();
+
+            foodForm = new FoodForm();
+            if (foodForm.ShowDialog() == DialogResult.OK)
+            {
+                foodManager.foodItems.Add(foodForm.FoodItem);
+                string[] foodItem = foodForm.FoodItem.ToStringArray();
+                FoodItems_list.Items.Add(new ListViewItem(foodItem));
+
+                for (int c = 0; c < foodItem.Length; c++)
+                    FoodItems_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
+            }
+        }
+
+
+        private void FoodItems_ConnectAnimal_input_Click(object sender, EventArgs e)
+        {
+            int? selectedFoodItemIndex = null;
+            int? selectedAnimalID = null;
+
+            try { selectedFoodItemIndex = FoodItems_list.SelectedIndices[0]; }
+            catch (Exception) { }
+            try { selectedAnimalID = animalManager.GetAt(Animals_list.SelectedIndices[0]).ID; }
+            catch (Exception) { }
+
+            if (selectedFoodItemIndex == null)
+            {
+                MessageBox.Show("No FoodItem Selected!", "Assert fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (selectedAnimalID == null)
+            {
+                MessageBox.Show("No Animal Selected!", "Assert fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            foodManager.AddConnection((int)selectedFoodItemIndex, (int)selectedAnimalID);
+
+            string[] foodItem = foodManager.ToStringArray((int)selectedFoodItemIndex);
+            FoodItems_list.Items[(int)selectedFoodItemIndex] = new ListViewItem(foodItem);
+        }
     }
 
 }

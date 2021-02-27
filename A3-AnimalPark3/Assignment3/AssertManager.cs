@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Assignment2
+namespace Assignment3
 {
     /// <summary>
     /// The class responsible for checking if the user inputed data is correctly inputed.

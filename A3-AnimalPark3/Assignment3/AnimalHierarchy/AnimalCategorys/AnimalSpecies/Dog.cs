@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace Assignment2
+namespace Assignment3
 {
     class Dog : Mammal
     {

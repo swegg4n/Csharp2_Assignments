@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Assignment2
+namespace Assignment3
 {
-    abstract class Comparer<T> : IComparer<T>
+    public abstract class Comparer<T> : IComparer<T>
     {
         public abstract int Compare(T x, T y);
     }

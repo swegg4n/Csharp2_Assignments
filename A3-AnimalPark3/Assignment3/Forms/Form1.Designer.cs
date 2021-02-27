@@ -1,5 +1,5 @@
 ﻿
-namespace Assignment2
+namespace Assignment3
 {
     partial class Form1
     {
@@ -68,6 +68,8 @@ namespace Assignment2
             this.AnimalImage = new System.Windows.Forms.PictureBox();
             this.ListAllAnimals_input = new System.Windows.Forms.CheckBox();
             this.AnimalSpecs = new System.Windows.Forms.GroupBox();
+            this.Animal_change_input = new System.Windows.Forms.Button();
+            this.Animal_remove_input = new System.Windows.Forms.Button();
             this.Animal_addRandom_input = new System.Windows.Forms.Button();
             this.FeedingSchedule = new System.Windows.Forms.GroupBox();
             this.Animal_dietinfo_input = new System.Windows.Forms.TextBox();
@@ -75,12 +77,20 @@ namespace Assignment2
             this.Animal_dietType_label = new System.Windows.Forms.Label();
             this.List_sort_label = new System.Windows.Forms.Label();
             this.List_sort_input = new System.Windows.Forms.ComboBox();
+            this.FoodItems_NewFoodItem_input = new System.Windows.Forms.Button();
+            this.FoodItems_list = new System.Windows.Forms.ListView();
+            this.FoodItem_name_header = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FoodItem_ingredients_header = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FoodItem_animalID_header = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FoodItems = new System.Windows.Forms.GroupBox();
+            this.FoodItems_ConnectAnimal_input = new System.Windows.Forms.Button();
             this.Animal_group.SuspendLayout();
             this.Category_group.SuspendLayout();
             this.Species_group.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AnimalImage)).BeginInit();
             this.AnimalSpecs.SuspendLayout();
             this.FeedingSchedule.SuspendLayout();
+            this.FoodItems.SuspendLayout();
             this.SuspendLayout();
             // 
             // Animal_name_label
@@ -407,13 +417,14 @@ namespace Assignment2
             // 
             // Animal_add_input
             // 
+            this.Animal_add_input.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.Animal_add_input.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Animal_add_input.Location = new System.Drawing.Point(862, 163);
+            this.Animal_add_input.Location = new System.Drawing.Point(862, 116);
             this.Animal_add_input.Name = "Animal_add_input";
             this.Animal_add_input.Size = new System.Drawing.Size(118, 56);
             this.Animal_add_input.TabIndex = 13;
             this.Animal_add_input.Text = "Add animal";
-            this.Animal_add_input.UseVisualStyleBackColor = true;
+            this.Animal_add_input.UseVisualStyleBackColor = false;
             this.Animal_add_input.Click += new System.EventHandler(this.Animal_add_input_Click);
             // 
             // openFileDialog1
@@ -423,10 +434,12 @@ namespace Assignment2
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 266);
+            this.label1.Location = new System.Drawing.Point(7, 266);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 25);
             this.label1.TabIndex = 15;
@@ -435,7 +448,8 @@ namespace Assignment2
             // Animals_list
             // 
             this.Animals_list.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.Animals_list.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.Animals_list.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Animals_list.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Animals_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -443,12 +457,11 @@ namespace Assignment2
             this.Animals_list.GridLines = true;
             this.Animals_list.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.Animals_list.HideSelection = false;
-            this.Animals_list.HoverSelection = true;
             this.Animals_list.Location = new System.Drawing.Point(12, 294);
             this.Animals_list.MultiSelect = false;
             this.Animals_list.Name = "Animals_list";
             this.Animals_list.ShowGroups = false;
-            this.Animals_list.Size = new System.Drawing.Size(1128, 512);
+            this.Animals_list.Size = new System.Drawing.Size(1101, 512);
             this.Animals_list.TabIndex = 17;
             this.Animals_list.UseCompatibleStateImageBehavior = false;
             this.Animals_list.View = System.Windows.Forms.View.Details;
@@ -456,10 +469,11 @@ namespace Assignment2
             // 
             // AnimalImage
             // 
-            this.AnimalImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.AnimalImage.Location = new System.Drawing.Point(1149, 384);
+            this.AnimalImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AnimalImage.Location = new System.Drawing.Point(1119, 594);
             this.AnimalImage.Name = "AnimalImage";
-            this.AnimalImage.Size = new System.Drawing.Size(368, 422);
+            this.AnimalImage.Size = new System.Drawing.Size(374, 212);
             this.AnimalImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.AnimalImage.TabIndex = 18;
             this.AnimalImage.TabStop = false;
@@ -478,8 +492,8 @@ namespace Assignment2
             // 
             // AnimalSpecs
             // 
-            this.AnimalSpecs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.AnimalSpecs.Controls.Add(this.Animal_change_input);
+            this.AnimalSpecs.Controls.Add(this.Animal_remove_input);
             this.AnimalSpecs.Controls.Add(this.Animal_addRandom_input);
             this.AnimalSpecs.Controls.Add(this.ListAllAnimals_input);
             this.AnimalSpecs.Controls.Add(this.Animal_add_input);
@@ -492,33 +506,57 @@ namespace Assignment2
             this.AnimalSpecs.Controls.Add(this.Animal_group);
             this.AnimalSpecs.Location = new System.Drawing.Point(5, 12);
             this.AnimalSpecs.Name = "AnimalSpecs";
-            this.AnimalSpecs.Size = new System.Drawing.Size(989, 245);
+            this.AnimalSpecs.Size = new System.Drawing.Size(989, 251);
             this.AnimalSpecs.TabIndex = 20;
             this.AnimalSpecs.TabStop = false;
             this.AnimalSpecs.Text = "Animal Specifications";
             // 
+            // Animal_change_input
+            // 
+            this.Animal_change_input.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.Animal_change_input.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Animal_change_input.Location = new System.Drawing.Point(862, 175);
+            this.Animal_change_input.Name = "Animal_change_input";
+            this.Animal_change_input.Size = new System.Drawing.Size(118, 34);
+            this.Animal_change_input.TabIndex = 22;
+            this.Animal_change_input.Text = "Change animal";
+            this.Animal_change_input.UseVisualStyleBackColor = false;
+            this.Animal_change_input.Click += new System.EventHandler(this.Animal_change_input_Click);
+            // 
+            // Animal_remove_input
+            // 
+            this.Animal_remove_input.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.Animal_remove_input.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Animal_remove_input.Location = new System.Drawing.Point(862, 211);
+            this.Animal_remove_input.Name = "Animal_remove_input";
+            this.Animal_remove_input.Size = new System.Drawing.Size(118, 34);
+            this.Animal_remove_input.TabIndex = 21;
+            this.Animal_remove_input.Text = "Remove animal";
+            this.Animal_remove_input.UseVisualStyleBackColor = false;
+            this.Animal_remove_input.Click += new System.EventHandler(this.Animal_remove_input_Click);
+            // 
             // Animal_addRandom_input
             // 
+            this.Animal_addRandom_input.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.Animal_addRandom_input.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Animal_addRandom_input.Location = new System.Drawing.Point(862, 103);
+            this.Animal_addRandom_input.Location = new System.Drawing.Point(862, 59);
             this.Animal_addRandom_input.Name = "Animal_addRandom_input";
             this.Animal_addRandom_input.Size = new System.Drawing.Size(118, 56);
             this.Animal_addRandom_input.TabIndex = 20;
             this.Animal_addRandom_input.Text = "Add random animal";
-            this.Animal_addRandom_input.UseVisualStyleBackColor = true;
+            this.Animal_addRandom_input.UseVisualStyleBackColor = false;
             this.Animal_addRandom_input.Click += new System.EventHandler(this.Animal_addRandom_input_Click);
             // 
             // FeedingSchedule
             // 
-            this.FeedingSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.FeedingSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FeedingSchedule.Controls.Add(this.Animal_dietinfo_input);
             this.FeedingSchedule.Controls.Add(this.Animal_dietType_input);
             this.FeedingSchedule.Controls.Add(this.Animal_dietType_label);
-            this.FeedingSchedule.Location = new System.Drawing.Point(1000, 12);
+            this.FeedingSchedule.Location = new System.Drawing.Point(1119, 343);
             this.FeedingSchedule.Name = "FeedingSchedule";
-            this.FeedingSchedule.Size = new System.Drawing.Size(517, 245);
+            this.FeedingSchedule.Size = new System.Drawing.Size(374, 245);
             this.FeedingSchedule.TabIndex = 21;
             this.FeedingSchedule.TabStop = false;
             this.FeedingSchedule.Text = "Feeding Schedule";
@@ -536,7 +574,7 @@ namespace Assignment2
             this.Animal_dietinfo_input.Multiline = true;
             this.Animal_dietinfo_input.Name = "Animal_dietinfo_input";
             this.Animal_dietinfo_input.ReadOnly = true;
-            this.Animal_dietinfo_input.Size = new System.Drawing.Size(505, 187);
+            this.Animal_dietinfo_input.Size = new System.Drawing.Size(362, 187);
             this.Animal_dietinfo_input.TabIndex = 10;
             // 
             // Animal_dietType_input
@@ -548,7 +586,7 @@ namespace Assignment2
             this.Animal_dietType_input.Location = new System.Drawing.Point(149, 20);
             this.Animal_dietType_input.Name = "Animal_dietType_input";
             this.Animal_dietType_input.ReadOnly = true;
-            this.Animal_dietType_input.Size = new System.Drawing.Size(362, 29);
+            this.Animal_dietType_input.Size = new System.Drawing.Size(219, 29);
             this.Animal_dietType_input.TabIndex = 9;
             this.Animal_dietType_input.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -564,10 +602,11 @@ namespace Assignment2
             // 
             // List_sort_label
             // 
-            this.List_sort_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.List_sort_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.List_sort_label.AutoSize = true;
             this.List_sort_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.List_sort_label.Location = new System.Drawing.Point(1146, 294);
+            this.List_sort_label.Location = new System.Drawing.Point(1120, 294);
             this.List_sort_label.Name = "List_sort_label";
             this.List_sort_label.Size = new System.Drawing.Size(86, 25);
             this.List_sort_label.TabIndex = 8;
@@ -575,21 +614,95 @@ namespace Assignment2
             // 
             // List_sort_input
             // 
-            this.List_sort_input.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.List_sort_input.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.List_sort_input.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.List_sort_input.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.List_sort_input.FormattingEnabled = true;
-            this.List_sort_input.Location = new System.Drawing.Point(1238, 295);
+            this.List_sort_input.Location = new System.Drawing.Point(1212, 294);
             this.List_sort_input.Name = "List_sort_input";
             this.List_sort_input.Size = new System.Drawing.Size(156, 28);
             this.List_sort_input.TabIndex = 8;
             this.List_sort_input.SelectedIndexChanged += new System.EventHandler(this.List_sort_input_SelectedIndexChanged);
             // 
+            // FoodItems_NewFoodItem_input
+            // 
+            this.FoodItems_NewFoodItem_input.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FoodItems_NewFoodItem_input.Location = new System.Drawing.Point(6, 207);
+            this.FoodItems_NewFoodItem_input.Name = "FoodItems_NewFoodItem_input";
+            this.FoodItems_NewFoodItem_input.Size = new System.Drawing.Size(128, 34);
+            this.FoodItems_NewFoodItem_input.TabIndex = 21;
+            this.FoodItems_NewFoodItem_input.Text = "New Food Item";
+            this.FoodItems_NewFoodItem_input.UseVisualStyleBackColor = true;
+            this.FoodItems_NewFoodItem_input.Click += new System.EventHandler(this.Animal_foodItems_input_Click);
+            // 
+            // FoodItems_list
+            // 
+            this.FoodItems_list.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FoodItems_list.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FoodItems_list.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.FoodItem_name_header,
+            this.FoodItem_ingredients_header,
+            this.FoodItem_animalID_header});
+            this.FoodItems_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FoodItems_list.FullRowSelect = true;
+            this.FoodItems_list.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.FoodItems_list.HideSelection = false;
+            this.FoodItems_list.Location = new System.Drawing.Point(6, 19);
+            this.FoodItems_list.MultiSelect = false;
+            this.FoodItems_list.Name = "FoodItems_list";
+            this.FoodItems_list.Size = new System.Drawing.Size(481, 184);
+            this.FoodItems_list.TabIndex = 23;
+            this.FoodItems_list.UseCompatibleStateImageBehavior = false;
+            this.FoodItems_list.View = System.Windows.Forms.View.Details;
+            // 
+            // FoodItem_name_header
+            // 
+            this.FoodItem_name_header.Text = "Name";
+            this.FoodItem_name_header.Width = 112;
+            // 
+            // FoodItem_ingredients_header
+            // 
+            this.FoodItem_ingredients_header.Text = "Ingredients";
+            this.FoodItem_ingredients_header.Width = 278;
+            // 
+            // FoodItem_animalID_header
+            // 
+            this.FoodItem_animalID_header.Text = "Animal ID";
+            this.FoodItem_animalID_header.Width = 76;
+            // 
+            // FoodItems
+            // 
+            this.FoodItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FoodItems.Controls.Add(this.FoodItems_ConnectAnimal_input);
+            this.FoodItems.Controls.Add(this.FoodItems_list);
+            this.FoodItems.Controls.Add(this.FoodItems_NewFoodItem_input);
+            this.FoodItems.Location = new System.Drawing.Point(1000, 15);
+            this.FoodItems.Name = "FoodItems";
+            this.FoodItems.Size = new System.Drawing.Size(493, 248);
+            this.FoodItems.TabIndex = 24;
+            this.FoodItems.TabStop = false;
+            this.FoodItems.Text = "Food Items";
+            // 
+            // FoodItems_ConnectAnimal_input
+            // 
+            this.FoodItems_ConnectAnimal_input.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FoodItems_ConnectAnimal_input.Location = new System.Drawing.Point(341, 207);
+            this.FoodItems_ConnectAnimal_input.Name = "FoodItems_ConnectAnimal_input";
+            this.FoodItems_ConnectAnimal_input.Size = new System.Drawing.Size(146, 34);
+            this.FoodItems_ConnectAnimal_input.TabIndex = 24;
+            this.FoodItems_ConnectAnimal_input.Text = "Connect Animal";
+            this.FoodItems_ConnectAnimal_input.UseVisualStyleBackColor = true;
+            this.FoodItems_ConnectAnimal_input.Click += new System.EventHandler(this.FoodItems_ConnectAnimal_input_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1529, 818);
+            this.ClientSize = new System.Drawing.Size(1505, 818);
+            this.Controls.Add(this.FoodItems);
             this.Controls.Add(this.List_sort_input);
             this.Controls.Add(this.List_sort_label);
             this.Controls.Add(this.FeedingSchedule);
@@ -610,6 +723,7 @@ namespace Assignment2
             this.AnimalSpecs.PerformLayout();
             this.FeedingSchedule.ResumeLayout(false);
             this.FeedingSchedule.PerformLayout();
+            this.FoodItems.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -662,6 +776,15 @@ namespace Assignment2
         private System.Windows.Forms.Label List_sort_label;
         public System.Windows.Forms.ComboBox List_sort_input;
         private System.Windows.Forms.Button Animal_addRandom_input;
+        private System.Windows.Forms.Button FoodItems_NewFoodItem_input;
+        private System.Windows.Forms.ListView FoodItems_list;
+        private System.Windows.Forms.Button Animal_remove_input;
+        private System.Windows.Forms.Button Animal_change_input;
+        private System.Windows.Forms.ColumnHeader FoodItem_name_header;
+        private System.Windows.Forms.ColumnHeader FoodItem_ingredients_header;
+        private System.Windows.Forms.ColumnHeader FoodItem_animalID_header;
+        private System.Windows.Forms.GroupBox FoodItems;
+        private System.Windows.Forms.Button FoodItems_ConnectAnimal_input;
     }
 }
 

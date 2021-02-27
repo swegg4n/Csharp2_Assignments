@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Assignment2
+namespace Assignment3
 {
     /// <summary>
     /// The class responsible for creating animals from user inputed data.
@@ -24,7 +24,7 @@ namespace Assignment2
         /// <param name="animalManager">The manager where the animal will be stored</param>
         /// <param name="selectedCategory">The category of animals chosen. Used together with <paramref name="selectedSpecies"/> to determine which animal to create</param>
         /// <param name="selectedSpecies">The species of animals chosen. Used together with <paramref name="selectedCategory"/> to determine which animal to create</param>
-        public void CreateAnimal(Form1 form, Image loadedImage, AnimalManager animalManager, Categorys selectedCategory, Species selectedSpecies)
+        public Animal CreateAnimal(Form1 form, Image loadedImage, AnimalManager animalManager, Categorys selectedCategory, Species selectedSpecies)
         {
             Animal animal = null;
 
@@ -84,7 +84,7 @@ namespace Assignment2
                 }
             }
 
-            animalManager.AddAnimal(animal);
+            return animal;
         }
 
 
@@ -92,7 +92,7 @@ namespace Assignment2
         /// Creates a random animal with random properties
         /// </summary>
         /// <param name="animalManager"></param>
-        public void CreateRandomAnimal(AnimalManager animalManager)
+        public Animal CreateRandomAnimal(AnimalManager animalManager)
         {
             Animal animal = null;
 
@@ -102,9 +102,6 @@ namespace Assignment2
 
             Categorys category = RandomEnum<Categorys>();
             Species species = RandomEnum<Species>(category);
-
-            Console.WriteLine(category);
-            Console.WriteLine(species);
 
             switch (category)
             {
@@ -161,7 +158,7 @@ namespace Assignment2
                     break;
             }
 
-            animalManager.AddAnimal(animal);
+            return animal;
         }
 
         /// <summary>
