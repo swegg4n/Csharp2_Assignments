@@ -7,35 +7,36 @@ namespace Assignment3
     /// <summary>
     /// Class containing data and helper-methods regarding animal feeding routines
     /// </summary>
-    class FoodSchedule
+    public class FeedingSchedule
     {
-        private List<string> foodDescriptions;
+        public string Diet { get; set; }
+        public ListManager<string> FoodDescriptions { get; set; }
 
-        public int Count { get { return foodDescriptions.Count; } }
+        public int Count { get { return FoodDescriptions.Count; } }
 
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public FoodSchedule()
+        public FeedingSchedule()
         {
-            foodDescriptions = new List<string>();
+            FoodDescriptions = new ListManager<string>();
         }
 
         /// <summary>
         /// Copy constructor
         /// </summary>
-        public FoodSchedule(List<string> foodList)
+        public FeedingSchedule(ListManager<string> foodList)
         {
-            foodDescriptions = foodList;
+            FoodDescriptions = foodList;
         }
 
         /// <summary>
         /// Constructor for filling the list with <paramref name="items"/>
         /// </summary>
-        public FoodSchedule(params string[] items)
+        public FeedingSchedule(params string[] items)
         {
-            foodDescriptions = new List<string>();
+            FoodDescriptions = new ListManager<string>();
 
             for (int i = 0; i < items.Length; i++)
                 AddFoodScheduleItem(items[i]);
@@ -46,9 +47,9 @@ namespace Assignment3
         /// </summary>
         public bool AddFoodScheduleItem(string item)
         {
-            if (foodDescriptions != null)
+            if (FoodDescriptions != null)
             {
-                foodDescriptions.Add(item);
+                FoodDescriptions.Add(item);
                 return true;
             }
 
@@ -62,7 +63,7 @@ namespace Assignment3
         {
             if (ValidateIndex(index))
             {
-                foodDescriptions[index] = item;
+                FoodDescriptions[index] = item;
             }
 
             return false;
@@ -75,7 +76,7 @@ namespace Assignment3
         {
             if (ValidateIndex(index))
             {
-                foodDescriptions.RemoveAt(index);
+                FoodDescriptions.RemoveAt(index);
             }
 
             return false;
@@ -98,7 +99,7 @@ namespace Assignment3
         {
             if (ValidateIndex(index))
             {
-                return foodDescriptions[index];
+                return FoodDescriptions[index];
             }
 
             throw new IndexOutOfRangeException();
@@ -111,12 +112,12 @@ namespace Assignment3
         {
             StringBuilder sb = new StringBuilder();
 
-            if (foodDescriptions != null && Count > 0)
+            if (FoodDescriptions != null && Count > 0)
             {
                 sb.Append($"To be fed {Count} times as follows:\r\n");
 
                 for (int i = 0; i < Count; i++)
-                    sb.Append($"({i}) {foodDescriptions[i]}\r\n");
+                    sb.Append($"({i}) {FoodDescriptions[i]}\r\n");
 
                 return sb.ToString();
             }
@@ -125,11 +126,36 @@ namespace Assignment3
         }
 
         /// <summary>
+        /// Prints a string array of all items in the food descriptions-list
+        /// </summary>
+        public string[] ToStringArray()
+        {
+            return new string[] 
+            {
+                this.Diet,
+                this.FoodDescriptions.ToString(),
+            };
+        }
+
+        /// <summary>
+        /// Prints a string list of all items in the food descriptions-list
+        /// </summary>
+        public List<string> ToStringList()
+        {
+            return new List<string>()
+            {
+                this.Diet,
+                this.FoodDescriptions.ToString(),
+            };
+        }
+
+
+        /// <summary>
         /// Validates if the list is initilaized and index: <paramref name="index"/> lies within the bounds of the list
         /// </summary>
         private bool ValidateIndex(int index)
         {
-            return (foodDescriptions != null && index >= 0 && index < Count);
+            return (FoodDescriptions != null && index >= 0 && index < Count);
         }
     }
 

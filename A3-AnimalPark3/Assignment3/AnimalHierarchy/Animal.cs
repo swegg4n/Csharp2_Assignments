@@ -44,10 +44,6 @@ namespace Assignment3
         }
 
 
-        public abstract EaterType GetEaterType();
-
-        public abstract FoodSchedule GetFoodSchedule();
-
         public abstract string GetSpecies();
     }
 

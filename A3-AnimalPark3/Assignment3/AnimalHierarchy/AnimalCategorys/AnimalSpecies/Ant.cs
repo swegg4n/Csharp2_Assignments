@@ -30,22 +30,6 @@ namespace Assignment3
 
 
         /// <summary>
-        /// Returns this animal's EaterType
-        /// </summary>
-        public override EaterType GetEaterType()
-        {
-            return EaterType.Omnivorous;
-        }
-
-        /// <summary>
-        /// Returns this animal's FoodSchedules
-        /// </summary>
-        public override FoodSchedule GetFoodSchedule()
-        {
-            return new FoodSchedule("Morning: Leaves", "Lunch: Various fruits", "Evening: Larvae");
-        }
-
-        /// <summary>
         /// Returns this animal's species-name
         /// </summary>
         public override string GetSpecies()

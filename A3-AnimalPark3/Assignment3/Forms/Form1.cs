@@ -22,6 +22,8 @@ namespace Assignment3
 
         FoodForm foodForm;
         FoodManager foodManager;
+        FeedingScheduleForm feedingScheduleForm;
+        FeedingScheduleManager feedingScheduleManager;
 
 
         /// <summary>
@@ -33,6 +35,7 @@ namespace Assignment3
             animalManager = new AnimalManager();
             animalFactory = new AnimalFactory();
             foodManager = new FoodManager();
+            feedingScheduleManager = new FeedingScheduleManager();
 
             AddCategoryItems();
             AddGenderItems();
@@ -121,6 +124,10 @@ namespace Assignment3
             }
         }
 
+        /// <summary>
+        /// Remove animal button
+        /// Removes the selected animal from the animals-list
+        /// </summary>
         private void Animal_remove_input_Click(object sender, EventArgs e)
         {
             Animal_remove_input.Enabled = false;
@@ -194,6 +201,9 @@ namespace Assignment3
 
         }
 
+        /// <summary>
+        /// Checks if an animal is selected or not
+        /// </summary>
         private bool AssertAnimalSelected()
         {
             if (Animals_list.SelectedIndices != null && Animals_list.SelectedIndices.Count > 0 && Animals_list.SelectedIndices[0] != -1)
@@ -310,40 +320,14 @@ namespace Assignment3
         {
             if (Animals_list.SelectedIndices != null && Animals_list.SelectedIndices.Count > 0 && Animals_list.SelectedIndices[0] != -1)
             {
-                DisplayAnimalData(animalManager.GetAt(Animals_list.SelectedIndices[0]));  //use the selected index to find which animal in the list to display
                 Animal_remove_input.Enabled = true;
             }
             else
             {
-                ClearAnimalData();
                 Animal_remove_input.Enabled = false;
             }
         }
 
-        /// <summary>
-        /// Prints the image associated with the <paramref name="animal"/> and displayes the animals feeding schedule
-        /// Called when the animal in the list is selected.
-        /// </summary>
-        /// <param name="animal">The animal to display more information about</param>
-        private void DisplayAnimalData(Animal animal)
-        {
-            AnimalImage.Image = animal.Image;
-
-            Animal_dietType_input.Text = animal.GetEaterType().ToString();
-            Animal_dietinfo_input.Text = animal.GetFoodSchedule().ToString();
-        }
-
-        /// <summary>
-        /// Clears the image displaying the selected animal and the animal feeding schedule-information
-        /// Called when the animal in the list is deselected.
-        /// </summary>
-        private void ClearAnimalData()
-        {
-            AnimalImage.Image = null;
-
-            Animal_dietType_input.Text = "";
-            Animal_dietinfo_input.Text = "";
-        }
 
         /// <summary>
         /// Action called when checking/unchecking "list all animals". Resets the displayed controls and adds all species the the dropdown list.
@@ -539,6 +523,9 @@ namespace Assignment3
             }
         }
 
+        /// <summary>
+        /// Button click event for adding a new food item
+        /// </summary>
         private void Animal_foodItems_input_Click(object sender, EventArgs e)
         {
             if (foodForm != null)
@@ -555,8 +542,29 @@ namespace Assignment3
                     FoodItems_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
             }
         }
+        /// <summary>
+        /// Button click event for adding a new feeding schedule
+        /// </summary>
+        private void FoodSchedule_NewSchedule_input_Click(object sender, EventArgs e)
+        {
+            if (feedingScheduleForm != null)
+                feedingScheduleForm.Close();
 
+            feedingScheduleForm = new FeedingScheduleForm();
+            if (feedingScheduleForm.ShowDialog() == DialogResult.OK)
+            {
+                feedingScheduleManager.feedingSchedules.Add(feedingScheduleForm.FeedingSchedule);
+                string[] feedingSchedule = feedingScheduleForm.FeedingSchedule.ToStringArray();
+                FeedingSchedule_list.Items.Add(new ListViewItem(feedingSchedule));
 
+                for (int c = 0; c < feedingSchedule.Length; c++)
+                    FoodItems_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
+            }
+        }
+
+        /// <summary>
+        /// Button click event for connecting selected animal to selected food item
+        /// </summary>
         private void FoodItems_ConnectAnimal_input_Click(object sender, EventArgs e)
         {
             int? selectedFoodItemIndex = null;
@@ -582,6 +590,35 @@ namespace Assignment3
 
             string[] foodItem = foodManager.ToStringArray((int)selectedFoodItemIndex);
             FoodItems_list.Items[(int)selectedFoodItemIndex] = new ListViewItem(foodItem);
+        }
+        /// <summary>
+        /// Button click event for connecting selected animal to selected food item
+        /// </summary>
+        private void FeedingSchedule_ConnectAnimal_input_Click(object sender, EventArgs e)
+        {
+            int? selectedFeedingSchedule = null;
+            int? selectedAnimalID = null;
+
+            try { selectedFeedingSchedule = FeedingSchedule_list.SelectedIndices[0]; }
+            catch (Exception) { }
+            try { selectedAnimalID = animalManager.GetAt(Animals_list.SelectedIndices[0]).ID; }
+            catch (Exception) { }
+
+            if (selectedFeedingSchedule == null)
+            {
+                MessageBox.Show("No Feeding Schedule Selected!", "Assert fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (selectedAnimalID == null)
+            {
+                MessageBox.Show("No Animal Selected!", "Assert fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            feedingScheduleManager.AddConnection((int)selectedFeedingSchedule, (int)selectedAnimalID);
+
+            string[] feedingSchedule = feedingScheduleManager.ToStringArray((int)selectedFeedingSchedule);
+            FeedingSchedule_list.Items[(int)selectedFeedingSchedule] = new ListViewItem(feedingSchedule);
         }
     }
 

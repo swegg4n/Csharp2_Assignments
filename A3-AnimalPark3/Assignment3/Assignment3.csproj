@@ -54,30 +54,40 @@
     <Compile Include="AnimalHierarchy\AnimalCategorys\AnimalSpecies\Monkey.cs" />
     <Compile Include="AnimalHierarchy\AnimalCategorys\Insect.cs" />
     <Compile Include="AnimalHierarchy\AnimalCategorys\Mammal.cs" />
-    <Compile Include="AnimalHierarchy\FoodItem.cs" />
+    <Compile Include="FoodItem.cs" />
     <Compile Include="AnimalHierarchy\IAnimal.cs" />
-    <Compile Include="AnimalManager.cs" />
-    <Compile Include="AssertManager.cs" />
+    <Compile Include="Managers\AnimalManager.cs" />
+    <Compile Include="Managers\AssertManager.cs" />
     <Compile Include="Comparers.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="FoodManager.cs" />
+    <Compile Include="Managers\FeedingScheduleManager.cs" />
+    <Compile Include="Managers\FoodManager.cs" />
+    <Compile Include="Forms\FeedingScheduleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FeedingScheduleForm.Designer.cs">
+      <DependentUpon>FeedingScheduleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FoodForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FoodForm.Designer.cs">
       <DependentUpon>FoodForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FoodSchedule.cs" />
+    <Compile Include="FeedingSchedule.cs" />
     <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="IListManager.cs" />
-    <Compile Include="ListManager.cs" />
+    <Compile Include="Managers\IListManager.cs" />
+    <Compile Include="Managers\ListManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\FeedingScheduleForm.resx">
+      <DependentUpon>FeedingScheduleForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FoodForm.resx">
       <DependentUpon>FoodForm.cs</DependentUpon>
     </EmbeddedResource>

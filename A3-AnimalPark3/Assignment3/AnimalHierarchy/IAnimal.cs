@@ -11,8 +11,6 @@
         Genders Gender { get; set; }
 
 
-        EaterType GetEaterType();
-        FoodSchedule GetFoodSchedule();
         string GetSpecies();
     }
 
