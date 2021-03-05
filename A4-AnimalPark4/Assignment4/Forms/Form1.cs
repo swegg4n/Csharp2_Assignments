@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assignment4.Utillity;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -32,6 +33,30 @@ namespace Assignment4
         public Form1()
         {
             InitializeComponent();
+
+            All_panel.Visible = false;
+
+            speciesMapping = new Dictionary<Categorys, Species[]>   //Creates a mapping of how the species are related to the categorys, for use in dropdown lists
+            {
+                { Categorys.Insect, new Species[]{ Species.Ant, Species.Butterfly } },
+                { Categorys.Mamal, new Species[]{ Species.Dog, Species.Monkey } },
+            };
+            categoryControlsMapping = new Dictionary<Categorys, Control[]>  //Maps controls to the Categorys
+            {
+                { Categorys.Insect, new Control[]{ Category_noLegs_label, Category_noLegs_input, Categoty_canFly_label, Category_canFly_input } },
+                { Categorys.Mamal, new Control[]{ Category_noteeth_label, Category_noteeth_input, Category_furColor_label, Category_furColor_input } }
+            };
+            speciesControlsMapping = new Dictionary<Species, Control[]>     //Maps controls to the Species
+            {
+                { Species.Ant, new Control[] {  Species_isQueen_label, Species_isQueen_input } },
+                { Species.Butterfly, new Control[] {  Species_wingColor_label, Species_wingColor_input } },
+                { Species.Dog, new Control[] {  Species_breed_label, Species_breed_input } },
+                { Species.Monkey, new Control[] {  Species_tailLength_label, Species_tailLength_input } },
+            };
+        }
+
+        private void ResetAll()
+        {
             animalManager = new AnimalManager();
             animalFactory = new AnimalFactory();
             foodManager = new FoodManager();
@@ -41,29 +66,19 @@ namespace Assignment4
             AddGenderItems();
             AddSortingMethods();
 
-            speciesMapping = new Dictionary<Categorys, Species[]>   //Creates a mapping of how the species are related to the categorys, for use in dropdown lists
-            {
-                { Categorys.Insect, new Species[]{ Species.Ant, Species.Butterfly } },
-                { Categorys.Mamal, new Species[]{ Species.Dog, Species.Monkey } },
-            };
-
-            categoryControlsMapping = new Dictionary<Categorys, Control[]>  //Maps controls to the Categorys
-            {
-                { Categorys.Insect, new Control[]{ Category_noLegs_label ,Category_noLegs_input, Categoty_canFly_label, Category_canFly_input } },
-                { Categorys.Mamal, new Control[]{ Category_noteeth_label ,Category_noteeth_input, Category_furColor_label, Category_furColor_input } }
-            };
-            speciesControlsMapping = new Dictionary<Species, Control[]>     //Maps controls to the Species
-            {
-                { Species.Ant, new Control[] {  Species_isQueen_label, Species_isQueen_input } },
-                { Species.Butterfly, new Control[] {  Species_wingColor_label, Species_wingColor_input } },
-                { Species.Dog, new Control[] {  Species_breed_label, Species_breed_input } },
-                { Species.Monkey, new Control[] {  Species_tailLength_label, Species_tailLength_input } },
-            };
-
             ChangeCategoryView(null);     //Resets the category to not show be shown or selected
             ChangeSpeciesView(null);      //Resets the species to not show be shown or selected
 
+            Animals_list.Items.Clear();
+            FoodItems_list.Items.Clear();
+            FeedingSchedule_list.Items.Clear();
+
             Animal_remove_input.Enabled = false;
+            Animal_change_input.Enabled = false;
+            loadedImage = null;
+
+            All_panel.Enabled = true;
+            All_panel.Visible = true;
         }
 
 
@@ -321,10 +336,12 @@ namespace Assignment4
             if (Animals_list.SelectedIndices != null && Animals_list.SelectedIndices.Count > 0 && Animals_list.SelectedIndices[0] != -1)
             {
                 Animal_remove_input.Enabled = true;
+                Animal_change_input.Enabled = true;
             }
             else
             {
                 Animal_remove_input.Enabled = false;
+                Animal_change_input.Enabled = false;
             }
         }
 
@@ -619,6 +636,58 @@ namespace Assignment4
 
             string[] feedingSchedule = feedingScheduleManager.ToStringArray((int)selectedFeedingSchedule);
             FeedingSchedule_list.Items[(int)selectedFeedingSchedule] = new ListViewItem(feedingSchedule);
+        }
+
+
+
+        private void FileMenu_new_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to create a new animal park?\nAny unsaved changed may be lost", "Create New Animal Park", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                == DialogResult.Yes)
+            {
+                ResetAll();
+            }
+        }
+
+        private void FileMenu_open_text_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void FileMenu_open_binary_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FileMenu_save_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FileMenu_saveAs_text_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void FileMenu_saveAs_binary_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FileMenu_xml_import_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void FileMenu_xml_export_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FileMenu_exit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to quit the program?\nAny unsaved changed may be lost", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
     }
 
