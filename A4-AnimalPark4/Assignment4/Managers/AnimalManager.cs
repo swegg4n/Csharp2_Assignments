@@ -27,6 +27,15 @@ namespace Assignment4
             Add(animal);
         }
 
+        public void SetStartID()
+        {
+            int largestID = int.MinValue;
+
+            foreach (Animal a in base.m_list)
+                largestID = a.ID > largestID ? a.ID : largestID;
+
+            animalID = largestID + 1;
+        }
 
 
 

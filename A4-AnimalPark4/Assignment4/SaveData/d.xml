@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<Data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AnimalsList>
+    <Animal xsi:type="Butterfly">
+      <ID>0</ID>
+      <Name>Osa</Name>
+      <Age>58</Age>
+      <Gender>Male</Gender>
+      <NumberOfLegs>4</NumberOfLegs>
+      <CanFly>false</CanFly>
+      <MainWingColor>V3pR</MainWingColor>
+    </Animal>
+    <Animal xsi:type="Ant">
+      <ID>1</ID>
+      <Name>Rkinqkw</Name>
+      <Age>7</Age>
+      <Gender>Male</Gender>
+      <NumberOfLegs>2</NumberOfLegs>
+      <CanFly>true</CanFly>
+      <IsQueen>true</IsQueen>
+    </Animal>
+    <Animal xsi:type="Dog">
+      <ID>2</ID>
+      <Name>Viqazam</Name>
+      <Age>95</Age>
+      <Gender>Female</Gender>
+      <NumberOfTeeth>13</NumberOfTeeth>
+      <FurColor>3HWu</FurColor>
+      <Breed>Gorv</Breed>
+    </Animal>
+  </AnimalsList>
+  <FoodItems>
+    <FoodItem>
+      <Name>a</Name>
+      <Ingredients>
+        <string>1</string>
+      </Ingredients>
+      <Connections />
+    </FoodItem>
+  </FoodItems>
+  <FeedingSchedules>
+    <FeedingSchedule>
+      <Diet>b</Diet>
+      <FoodDescriptions>
+        <string>2</string>
+        <string>3</string>
+      </FoodDescriptions>
+      <Connections>
+        <int>2</int>
+        <int>1</int>
+      </Connections>
+    </FeedingSchedule>
+  </FeedingSchedules>
+</Data>

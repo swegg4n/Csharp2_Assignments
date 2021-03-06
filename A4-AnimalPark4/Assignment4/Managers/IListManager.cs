@@ -21,7 +21,7 @@ namespace Assignment4
         /// <summary>
         /// Adds a collection of elements to the list
         /// </summary>
-        void AddRange(T[] t);
+        void AddRange(ICollection<T> t);
 
         /// <summary>
         /// Tries to change the element at position: <paramref name="index"/> in the list to value: <typeparamref name="T"/>
@@ -47,6 +47,16 @@ namespace Assignment4
         /// Tries to return the element at position: <paramref name="index"/> in the list
         /// </summary>
         T GetAt(int index);
+
+        /// <summary>
+        /// Returns the list data
+        /// </summary>
+        List<T> Data();
+
+        /// <summary>
+        /// Checks if value: <paramref name="value"/> exists in the list
+        /// </summary>
+        bool Contains(T value);
 
         /// <summary>
         /// Sorts the list using comparer <paramref name="c"/>

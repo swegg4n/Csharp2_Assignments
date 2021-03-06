@@ -8,9 +8,10 @@ namespace Assignment4
     /// <summary>
     /// The implementation of the ListManager
     /// </summary>
+    [Serializable]
     public class ListManager<T> : IListManager<T>, IEnumerable<T>
     {
-        private List<T> m_list = new List<T>();
+        protected List<T> m_list = new List<T>();
         public int Count { get { return m_list.Count; } }
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace Assignment4
         /// <summary>
         /// Adds a collection of elements to the list
         /// </summary>
-        public void AddRange(T[] t)
+        public void AddRange(ICollection<T> t)
         {
             foreach (T _t in t)
                 this.Add(_t);
@@ -92,7 +93,6 @@ namespace Assignment4
             }
         }
 
-
         /// <summary>
         /// Tries to return the element at position: <paramref name="index"/> in the list
         /// </summary>
@@ -100,6 +100,29 @@ namespace Assignment4
         {
             get => GetAt(index);
             set => ChangeAt(value, index);
+        }
+
+        /// <summary>
+        /// Returns the list data
+        /// </summary>
+        public List<T> Data()
+        {
+            return m_list;
+        }
+
+        /// <summary>
+        /// Checks if value: <paramref name="value"/> exists in the list
+        /// </summary>
+        public bool Contains(T value)
+        {
+            foreach (T entry in m_list)
+            {
+                if (entry.Equals(value))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -149,5 +172,6 @@ namespace Assignment4
         {
             return m_list.GetEnumerator();
         }
+
     }
 }

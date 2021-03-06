@@ -3,9 +3,10 @@ using System.Drawing;
 
 namespace Assignment4
 {
-    class Dog : Mammal
+    [System.Serializable]
+    public class Dog : Mammal
     {
-        public string Breed { get; private set; }
+        public string Breed { get; set; } = "";
 
 
         /// <summary>
@@ -16,13 +17,23 @@ namespace Assignment4
             this.Breed = breed;
         }
 
+        internal Dog() { }
+
+
+        public override string ToString()
+        {
+            string text = base.ToString();
+            text += ($"Breed: {Breed}");
+
+            return text;
+        }
 
         /// <summary>
         /// Prints a list of all dog-attributes
         /// </summary>
-        public override List<string> ToString()
+        public override List<string> ToStringList()
         {
-            List<string> text = base.ToString();
+            List<string> text = base.ToStringList();
             text.Add($"Breed:  {Breed}");
 
             return text;

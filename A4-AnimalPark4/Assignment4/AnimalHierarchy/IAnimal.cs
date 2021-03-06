@@ -1,4 +1,6 @@
-﻿namespace Assignment4
+﻿using System.Collections.Generic;
+
+namespace Assignment4
 {
     /// <summary>
     /// Interface implemented by Animal
@@ -11,6 +13,8 @@
         Genders Gender { get; set; }
 
 
+        string ToString();
+        List<string> ToStringList();
         string GetSpecies();
     }
 

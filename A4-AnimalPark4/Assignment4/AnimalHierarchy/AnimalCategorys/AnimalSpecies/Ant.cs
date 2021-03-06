@@ -3,9 +3,10 @@ using System.Drawing;
 
 namespace Assignment4
 {
-    class Ant : Insect
+    [System.Serializable]
+    public class Ant : Insect
     {
-        public bool IsQueen { get; private set; }
+        public bool IsQueen { get; set; } = false;
 
 
         /// <summary>
@@ -16,18 +17,27 @@ namespace Assignment4
             this.IsQueen = isQueen;
         }
 
+        internal Ant() { }
 
-        /// <summary>
-        /// Prints a list of all ant-attributes
-        /// </summary>
-        public override List<string> ToString()
+
+        public override string ToString()
         {
-            List<string> text = base.ToString();
-            text.Add($"Is queen?:  {IsQueen}");
+            string text = base.ToString();
+            text += ($"Is queen?: {IsQueen}");
 
             return text;
         }
 
+        /// <summary>
+        /// Prints a list of all ant-attributes
+        /// </summary>
+        public override List<string> ToStringList()
+        {
+            List<string> text = base.ToStringList();
+            text.Add($"Is queen?:  {IsQueen}");
+
+            return text;
+        }
 
         /// <summary>
         /// Returns this animal's species-name

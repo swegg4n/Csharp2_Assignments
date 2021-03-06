@@ -1,22 +1,14 @@
-﻿using Assignment4.Utility;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 
-namespace Assignment4.Utillity
+namespace Assignment4.Utility
 {
 
     static class Binary_Serializer
     {
-        private static string GetPath(string fileName)
+        public static void Serialize<T>(T obj, string path)
         {
-            return SaveDataPath.Path + fileName + ".bin";
-        }
-
-        public static void Serialize<T>(T obj, string fileName)
-        {
-            string path = GetPath(fileName);
-
             using (FileStream fileStream = File.Create(path))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -25,10 +17,8 @@ namespace Assignment4.Utillity
             }
         }
 
-        public static T Deserialize<T>(string fileName)
+        public static T Deserialize<T>(string path)
         {
-            string path = GetPath(fileName);
-
             using (FileStream fileStream = File.Open(path, FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -41,15 +31,8 @@ namespace Assignment4.Utillity
 
     static class XML_Serializer
     {
-        private static string GetPath(string fileName)
+        public static void Serialize<T>(T obj, string path)
         {
-            return SaveDataPath.Path + fileName + ".xml";
-        }
-
-        public static void Serialize<T>(T obj, string fileName)
-        {
-            string path = GetPath(fileName);
-
             using (FileStream fileStream = File.Create(path))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
@@ -58,10 +41,8 @@ namespace Assignment4.Utillity
             }
         }
 
-        public static T Deserialize<T>(string fileName)
+        public static T Deserialize<T>(string path)
         {
-            string path = GetPath(fileName);
-
             using (FileStream fileStream = File.Open(path, FileMode.Open))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));

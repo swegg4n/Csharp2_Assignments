@@ -3,9 +3,10 @@ using System.Drawing;
 
 namespace Assignment4
 {
-    class Butterfly : Insect
+    [System.Serializable]
+    public class Butterfly : Insect
     {
-        public Color MainWingColor { get; private set; }
+        public byte[] MainWingColor { get; set; } = new byte[] { 0, 0, 0 };
 
 
         /// <summary>
@@ -13,17 +14,27 @@ namespace Assignment4
         /// </summary>
         public Butterfly(string name, int age, Genders gender, Image image, int numberOfLegs, bool canFly, Color mainWingColor) : base(name, age, gender, image, numberOfLegs, canFly)
         {
-            this.MainWingColor = mainWingColor;
+            this.MainWingColor = new byte[] { mainWingColor.R, mainWingColor.G, mainWingColor.B };
         }
 
+        internal Butterfly() { }
+
+
+        public override string ToString()
+        {
+            string text = base.ToString();
+            text += ($"Main wing color: <{MainWingColor[0]}, {MainWingColor[1]}, {MainWingColor[2]}>");
+
+            return text;
+        }
 
         /// <summary>
         /// Prints a list of all butterfly-attributes
         /// </summary>
-        public override List<string> ToString()
+        public override List<string> ToStringList()
         {
-            List<string> text = base.ToString();
-            text.Add($"Main wing color:  ({ MainWingColor.R},{ MainWingColor.G},{ MainWingColor.B})");
+            List<string> text = base.ToStringList();
+            text.Add($"Main wing color:  <{MainWingColor[0]}, {MainWingColor[1]}, {MainWingColor[2]}>");
 
             return text;
         }

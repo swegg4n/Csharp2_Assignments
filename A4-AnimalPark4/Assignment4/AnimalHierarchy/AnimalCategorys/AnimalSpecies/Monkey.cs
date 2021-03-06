@@ -3,9 +3,10 @@ using System.Drawing;
 
 namespace Assignment4
 {
-    class Monkey : Mammal
+    [System.Serializable]
+    public class Monkey : Mammal
     {
-        public float TailLength { get; private set; }   //measured in centimeters (cm)
+        public float TailLength { get; set; } = -1;  //measured in centimeters (cm)
 
 
         /// <summary>
@@ -16,13 +17,23 @@ namespace Assignment4
             this.TailLength = tailLength;
         }
 
+        internal Monkey() { }
+
+
+        public override string ToString()
+        {
+            string text = base.ToString();
+            text += ($"Tail length: {TailLength} cm");
+
+            return text;
+        }
 
         /// <summary>
         /// Prints a list of all monkey-attributes
         /// </summary>
-        public override List<string> ToString()
+        public override List<string> ToStringList()
         {
-            List<string> text = base.ToString();
+            List<string> text = base.ToStringList();
             text.Add($"Tail length:  {TailLength} cm");
 
             return text;

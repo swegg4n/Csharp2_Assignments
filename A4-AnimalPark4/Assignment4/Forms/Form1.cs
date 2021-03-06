@@ -1,4 +1,4 @@
-﻿using Assignment4.Utillity;
+﻿using Assignment4.Utility;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -34,8 +34,6 @@ namespace Assignment4
         {
             InitializeComponent();
 
-            All_panel.Visible = false;
-
             speciesMapping = new Dictionary<Categorys, Species[]>   //Creates a mapping of how the species are related to the categorys, for use in dropdown lists
             {
                 { Categorys.Insect, new Species[]{ Species.Ant, Species.Butterfly } },
@@ -53,32 +51,44 @@ namespace Assignment4
                 { Species.Dog, new Control[] {  Species_breed_label, Species_breed_input } },
                 { Species.Monkey, new Control[] {  Species_tailLength_label, Species_tailLength_input } },
             };
+
+            ResetForm();
         }
 
-        private void ResetAll()
+        private void ResetForm()
         {
             animalManager = new AnimalManager();
             animalFactory = new AnimalFactory();
             foodManager = new FoodManager();
             feedingScheduleManager = new FeedingScheduleManager();
 
-            AddCategoryItems();
-            AddGenderItems();
-            AddSortingMethods();
-
-            ChangeCategoryView(null);     //Resets the category to not show be shown or selected
-            ChangeSpeciesView(null);      //Resets the species to not show be shown or selected
+            Animal_gender_input.Items.Clear();
+            Category_input.Items.Clear();
+            Species_input.Items.Clear();
+            List_sort_input.Items.Clear();
 
             Animals_list.Items.Clear();
             FoodItems_list.Items.Clear();
             FeedingSchedule_list.Items.Clear();
 
+            Animal_name_input.Clear();
+            Animal_age_input.Clear();
+
+            ChangeCategoryView(null);     //Resets the category to not show be shown or selected
+            ChangeSpeciesView(null);      //Resets the species to not show be shown or selected
+
+            AddCategoryItems();
+            AddGenderItems();
+            AddSortingMethods();
+
             Animal_remove_input.Enabled = false;
             Animal_change_input.Enabled = false;
-            loadedImage = null;
 
-            All_panel.Enabled = true;
-            All_panel.Visible = true;
+            FileMenu_save_text.Enabled = false;
+            FileMenu_save_binary.Enabled = false;
+
+            loadedImage = null;
+            AnimalImage.Image = null;
         }
 
 
@@ -95,7 +105,7 @@ namespace Assignment4
                 {
                     Animal animal = animalFactory.CreateAnimal(this, loadedImage, animalManager, (Categorys)GetSelectedCategory(), (Species)GetSelectedSpecies());
                     animalManager.AddAnimal(animal);
-                    FillAnimalsListView(Animals_list);
+                    FillAnimalsListView();
                     List_sort_input.SelectedIndex = -1;
                     MessageBox.Show("Animal successfully created!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -114,7 +124,7 @@ namespace Assignment4
             Animal animal = animalFactory.CreateRandomAnimal(animalManager);
             animalManager.AddAnimal(animal);
 
-            FillAnimalsListView(Animals_list);
+            FillAnimalsListView();
             List_sort_input.SelectedIndex = -1;
         }
 
@@ -129,7 +139,7 @@ namespace Assignment4
                 animal.ID = animalManager.GetAt(selectedIndex).ID;
                 animalManager.ChangeAt(animal, selectedIndex);
 
-                FillAnimalsListView(Animals_list);
+                FillAnimalsListView();
                 List_sort_input.SelectedIndex = -1;
                 MessageBox.Show("Animal successfully changed!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -148,7 +158,7 @@ namespace Assignment4
             Animal_remove_input.Enabled = false;
             animalManager.RemoveAt(Animals_list.SelectedIndices[0]);
 
-            FillAnimalsListView(Animals_list);
+            FillAnimalsListView();
             List_sort_input.SelectedIndex = -1;
         }
 
@@ -232,25 +242,64 @@ namespace Assignment4
             }
         }
 
+
         /// <summary>
         /// Clears and fills <paramref name="listView"/> with the animals from the animal-list
         /// </summary>
-        public void FillAnimalsListView(ListView listView)
+        public void FillAnimalsListView()
         {
-            listView.Items.Clear();
-            int columns = listView.Columns.Count;
+            Animals_list.Items.Clear();
+            int columns = Animals_list.Columns.Count;
 
             for (int i = 0; i < animalManager.Count; i++)
             {
-                List<string> animalData = animalManager.GetAt(i).ToString();
+                List<string> animalData = animalManager.GetAt(i).ToStringList();
 
                 for (int c = columns; c < animalData.Count; c++)
-                    listView.Columns.Add("");   //Adds new columns if necessary
+                    Animals_list.Columns.Add("");   //Adds new columns if necessary
 
-                listView.Items.Add(new ListViewItem(animalData.ToArray()));    //Adds a new entry to the list of created animals
+                Animals_list.Items.Add(new ListViewItem(animalData.ToArray()));    //Adds a new entry to the list of created animals
 
                 for (int c = 0; c < animalData.Count; c++)
-                    listView.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
+                    Animals_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
+            }
+        }
+
+        public void FillFoodItemsListView()
+        {
+            FoodItems_list.Items.Clear();
+            int columns = FoodItems_list.Columns.Count;
+
+            for (int i = 0; i < foodManager.Count; i++)
+            {
+                List<string> foodData = foodManager.GetAt(i).ToStringList();
+
+                for (int c = columns; c < foodData.Count; c++)
+                    FoodItems_list.Columns.Add("");   //Adds new columns if necessary
+
+                FoodItems_list.Items.Add(new ListViewItem(foodData.ToArray()));    //Adds a new entry to the list of created animals
+
+                for (int c = 0; c < foodData.Count; c++)
+                    FoodItems_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
+            }
+        }
+
+        public void FillFeedingSchedulesListView()
+        {
+            FeedingSchedule_list.Items.Clear();
+            int columns = FeedingSchedule_list.Columns.Count;
+
+            for (int i = 0; i < feedingScheduleManager.Count; i++)
+            {
+                List<string> scheduleData = feedingScheduleManager.GetAt(i).ToStringList();
+
+                for (int c = columns; c < scheduleData.Count; c++)
+                    FeedingSchedule_list.Columns.Add("");   //Adds new columns if necessary
+
+                FeedingSchedule_list.Items.Add(new ListViewItem(scheduleData.ToArray()));    //Adds a new entry to the list of created animals
+
+                for (int c = 0; c < scheduleData.Count; c++)
+                    FeedingSchedule_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
             }
         }
 
@@ -291,18 +340,11 @@ namespace Assignment4
         /// </summary>
         private void Animal_image_input_Click(object sender, EventArgs e)
         {
-#if DEBUG
-            int trimcount = 10;
-#else
-            int trimcount = 12;
-#endif
-            //Creates a relative path to a prederermined folder with images
-            string startupPath = Application.StartupPath;
-            openFileDialog1.InitialDirectory = startupPath.Substring(0, startupPath.Length - trimcount) + "\\Images";
+            FileDialog_image.InitialDirectory = RelativePath.ImagesFolderPath;
 
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (FileDialog_image.ShowDialog() == DialogResult.OK)
             {
-                loadedImage = new Bitmap(openFileDialog1.FileName);    //Set loadedImage to the image found at the chosen file location
+                loadedImage = new Bitmap(FileDialog_image.FileName);    //Set loadedImage to the image found at the chosen file location
             }
         }
 
@@ -311,9 +353,9 @@ namespace Assignment4
         /// </summary>
         private void Category_furColor_input_Click(object sender, EventArgs e)
         {
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            if (ColorDialog.ShowDialog() == DialogResult.OK)
             {
-                Category_furColor_input.BackColor = colorDialog1.Color;
+                Category_furColor_input.BackColor = ColorDialog.Color;
             }
         }
 
@@ -322,9 +364,9 @@ namespace Assignment4
         /// </summary>
         private void Species_wingColor_input_Click(object sender, EventArgs e)
         {
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            if (ColorDialog.ShowDialog() == DialogResult.OK)
             {
-                Species_wingColor_input.BackColor = colorDialog1.Color;
+                Species_wingColor_input.BackColor = ColorDialog.Color;
             }
         }
 
@@ -337,11 +379,13 @@ namespace Assignment4
             {
                 Animal_remove_input.Enabled = true;
                 Animal_change_input.Enabled = true;
+                AnimalImage.Image = animalManager.GetAt(Animals_list.SelectedIndices[0]).Image;
             }
             else
             {
                 Animal_remove_input.Enabled = false;
                 Animal_change_input.Enabled = false;
+                AnimalImage.Image = null;
             }
         }
 
@@ -536,7 +580,7 @@ namespace Assignment4
             if (List_sort_input.SelectedIndex != -1)
             {
                 animalManager.SortAnimals((SortMethods)List_sort_input.SelectedIndex);
-                FillAnimalsListView(Animals_list);
+                FillAnimalsListView();
             }
         }
 
@@ -551,7 +595,7 @@ namespace Assignment4
             foodForm = new FoodForm();
             if (foodForm.ShowDialog() == DialogResult.OK)
             {
-                foodManager.foodItems.Add(foodForm.FoodItem);
+                foodManager.Add(foodForm.FoodItem);
                 string[] foodItem = foodForm.FoodItem.ToStringArray();
                 FoodItems_list.Items.Add(new ListViewItem(foodItem));
 
@@ -570,12 +614,12 @@ namespace Assignment4
             feedingScheduleForm = new FeedingScheduleForm();
             if (feedingScheduleForm.ShowDialog() == DialogResult.OK)
             {
-                feedingScheduleManager.feedingSchedules.Add(feedingScheduleForm.FeedingSchedule);
+                feedingScheduleManager.Add(feedingScheduleForm.FeedingSchedule);
                 string[] feedingSchedule = feedingScheduleForm.FeedingSchedule.ToStringArray();
                 FeedingSchedule_list.Items.Add(new ListViewItem(feedingSchedule));
 
                 for (int c = 0; c < feedingSchedule.Length; c++)
-                    FoodItems_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
+                    FeedingSchedule_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
             }
         }
 
@@ -605,7 +649,7 @@ namespace Assignment4
 
             foodManager.AddConnection((int)selectedFoodItemIndex, (int)selectedAnimalID);
 
-            string[] foodItem = foodManager.ToStringArray((int)selectedFoodItemIndex);
+            string[] foodItem = foodManager.GetAt((int)selectedFoodItemIndex).ToStringArray();
             FoodItems_list.Items[(int)selectedFoodItemIndex] = new ListViewItem(foodItem);
         }
         /// <summary>
@@ -634,9 +678,10 @@ namespace Assignment4
 
             feedingScheduleManager.AddConnection((int)selectedFeedingSchedule, (int)selectedAnimalID);
 
-            string[] feedingSchedule = feedingScheduleManager.ToStringArray((int)selectedFeedingSchedule);
+            string[] feedingSchedule = feedingScheduleManager.GetAt((int)selectedFeedingSchedule).ToStringArray();
             FeedingSchedule_list.Items[(int)selectedFeedingSchedule] = new ListViewItem(feedingSchedule);
         }
+
 
 
 
@@ -645,40 +690,114 @@ namespace Assignment4
             if (MessageBox.Show("Are you sure you want to create a new animal park?\nAny unsaved changed may be lost", "Create New Animal Park", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 == DialogResult.Yes)
             {
-                ResetAll();
+                ResetForm();
             }
         }
 
         private void FileMenu_open_text_Click(object sender, EventArgs e)
         {
+            //OpenFileDialog dialog = LoadManager.CreateOpenDialog("Open Text File", "Text file|*.txt");
 
+            //if (dialog.ShowDialog() == DialogResult.OK)
+            //{
+            //    ResetForm();
+
+            //    string[] animalData = LoadManager.ReadTextFile(dialog.FileName);
+
+            //    foreach (string row in animalData)
+            //    {
+            //        //Animal a = LoadManager.TextToAnimal(row);
+            //        //animalManager.Add(animals);
+            //    }
+
+            //    FillAnimalsListView();
+
+            //    SaveManager.FilePath = dialog.FileName;
+            //    FileMenu_save_text.Enabled = true;
+            //}
         }
         private void FileMenu_open_binary_Click(object sender, EventArgs e)
         {
+            OpenFileDialog dialog = LoadManager.CreateOpenDialog("Open Binary File", "Binary file|*.bin");
 
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                ResetForm();
+
+                Data data = Binary_Serializer.Deserialize<Data>(dialog.FileName);
+                animalManager.AddRange(data.AnimalsList);
+                foodManager.AddRange(data.FoodItems);
+                feedingScheduleManager.AddRange(data.FeedingSchedules);
+
+                FillAnimalsListView();
+                FillFoodItemsListView();
+                FillFeedingSchedulesListView();
+
+                animalManager.SetStartID();
+
+                SaveManager.FilePath = dialog.FileName;
+                FileMenu_save_binary.Enabled = true;
+            }
         }
 
-        private void FileMenu_save_Click(object sender, EventArgs e)
+        private void FileMenu_save_text_Click(object sender, EventArgs e)
         {
-
+            SaveManager.SaveTextFile(GetSaveData());
+        }
+        private void FileMenu_save_binary_Click(object sender, EventArgs e)
+        {
+            Binary_Serializer.Serialize(GetSaveData(), SaveManager.FilePath);
         }
 
         private void FileMenu_saveAs_text_Click(object sender, EventArgs e)
         {
+            SaveFileDialog dialog = SaveManager.CreateSaveDialog("Save File as Text", "Text file|*.txt");
 
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                SaveManager.SaveAsTextFile(GetSaveData(), dialog.FileName);
+                SaveManager.FilePath = dialog.FileName;
+                FileMenu_save_text.Enabled = true;
+            }
         }
         private void FileMenu_saveAs_binary_Click(object sender, EventArgs e)
         {
+            SaveFileDialog dialog = SaveManager.CreateSaveDialog("Save File as Binary", "Binary file|*.bin");
 
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                Binary_Serializer.Serialize(GetSaveData(), dialog.FileName);
+                SaveManager.FilePath = dialog.FileName;
+                FileMenu_save_binary.Enabled = true;
+            }
         }
 
         private void FileMenu_xml_import_Click(object sender, EventArgs e)
         {
+            OpenFileDialog dialog = LoadManager.CreateOpenDialog("Open XML File", "XML file|*.xml");
 
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                ResetForm();
+
+                Data data = XML_Serializer.Deserialize<Data>(dialog.FileName);
+                animalManager.AddRange(data.AnimalsList);
+                foodManager.AddRange(data.FoodItems);
+                feedingScheduleManager.AddRange(data.FeedingSchedules);
+
+                FillAnimalsListView();
+                FillFoodItemsListView();
+                FillFeedingSchedulesListView();
+            }
         }
         private void FileMenu_xml_export_Click(object sender, EventArgs e)
         {
+            SaveFileDialog dialog = SaveManager.CreateSaveDialog("Export as XML", "XML file|*.xml");
 
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                XML_Serializer.Serialize(GetSaveData(), dialog.FileName);
+            }
         }
 
         private void FileMenu_exit_Click(object sender, EventArgs e)
@@ -689,6 +808,19 @@ namespace Assignment4
                 Application.Exit();
             }
         }
+
+
+        private Data GetSaveData()
+        {
+            Data data = new Data()
+            {
+                AnimalsList = animalManager.Data(),
+                FoodItems = foodManager.Data(),
+                FeedingSchedules = feedingScheduleManager.Data()
+            };
+            return data;
+        }
+
     }
 
 }

@@ -1,18 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Xml.Serialization;
 
 namespace Assignment4
 {
-
-    abstract class Animal : IAnimal
+    [Serializable]
+    [XmlInclude(typeof(Insect))]
+    [XmlInclude(typeof(Mammal))]
+    //[XmlInclude(typeof(Bitmap))]
+    public abstract class Animal : IAnimal
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public Genders Gender { get; set; }
+        public int ID { get; set; } = -1;
+        public string Name { get; set; } = "";
+        public int Age { get; set; } = -1;
+        public Genders Gender { get; set; } = Genders.Unknown;
 
 
-        public Image Image { get; private set; }   //An image showing the animal
+        [XmlIgnore] public Image Image { get; set; } = null;  //An image showing the animal
 
 
 
@@ -27,11 +32,25 @@ namespace Assignment4
             this.Image = image;
         }
 
+        internal Animal() { }
+
+
+        public virtual new string ToString()
+        {
+            string text = "";
+            text += ($"ID: {ID},  ");
+            text += ($"Name: {Name},  ");
+            text += ($"Age: {Age}, ");
+            text += ($"Gender: {Gender},  ");
+            text += ($"Species: {GetSpecies()},  ");
+
+            return text;
+        }
 
         /// <summary>
         /// Prints a list of all animal-attributes
         /// </summary>
-        public virtual new List<string> ToString()
+        public virtual List<string> ToStringList()
         {
             List<string> text = new List<string>();
             text.Add($"ID:  {ID}");
