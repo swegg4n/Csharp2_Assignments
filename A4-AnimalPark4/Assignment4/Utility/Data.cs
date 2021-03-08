@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Assignment4
 {
+    /// <summary>
+    /// Struct containing all data that can be saved/loaded/exported
+    /// </summary>
     [Serializable]
     public struct Data
     {

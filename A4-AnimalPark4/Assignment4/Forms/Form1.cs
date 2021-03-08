@@ -57,6 +57,9 @@ namespace Assignment4
             ResetForm();
         }
 
+        /// <summary>
+        /// Resets all GUI controls to their original state
+        /// </summary>
         private void ResetForm()
         {
             animalManager = new AnimalManager();
@@ -133,6 +136,9 @@ namespace Assignment4
             ChangeWasMade();
         }
 
+        /// <summary>
+        /// Change animal button - Tries to change the selected animal with the inputted data
+        /// </summary>
         private void Animal_change_input_Click(object sender, EventArgs e)
         {
             string errorMsg = "";
@@ -253,7 +259,7 @@ namespace Assignment4
 
 
         /// <summary>
-        /// Clears and fills <paramref name="listView"/> with the animals from the animal-list
+        /// Clears and fills the Animals list with the animals from the animal-list
         /// </summary>
         public void FillAnimalsListView()
         {
@@ -274,6 +280,9 @@ namespace Assignment4
             }
         }
 
+        /// <summary>
+        /// Clears and fills the Food items-list with the food items
+        /// </summary>
         public void FillFoodItemsListView()
         {
             FoodItems_list.Items.Clear();
@@ -293,6 +302,9 @@ namespace Assignment4
             }
         }
 
+        /// <summary>
+        /// Clears and fills the Feeding schedules-list with the feeding schedules
+        /// </summary>
         public void FillFeedingSchedulesListView()
         {
             FeedingSchedule_list.Items.Clear();
@@ -705,6 +717,10 @@ namespace Assignment4
         }
 
 
+        /// <summary>
+        /// Updates title to let the user know the file can be saved
+        /// Called whenever a change that can be saved has beed made
+        /// </summary>
         private void ChangeWasMade()
         {
             this.Text = SaveManager.FileName == null ? "Untitled Animal Park  *" : $"{SaveManager.FileName}  *";
@@ -712,7 +728,9 @@ namespace Assignment4
 
 
         #region File_Menu
-
+        /// <summary>
+        /// Prompts the user to create a new animal park by resetting the current form
+        /// </summary>
         private void FileMenu_new_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to create a new animal park?\nAny unsaved changed may be lost", "Create New Animal Park", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -723,6 +741,9 @@ namespace Assignment4
             }
         }
 
+        /// <summary>
+        /// Prompts the user to open any file of type ".bin" or ".xml"
+        /// </summary>
         private void FileMenu_open_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = LoadManager.CreateOpenDialog("Open File", "All files|*.bin;*.xml|Binary file|*.bin|XML file|*.xml");
@@ -732,9 +753,9 @@ namespace Assignment4
                 ResetForm();
 
                 string extension = Path.GetExtension(dialog.FileName);
-                Data data = new Data();
+                Data data;
 
-                switch (extension)
+                switch (extension)  //Automatically chooses serializer based on file extension
                 {
                     case ".bin":
                         data = Binary_Serializer.Deserialize<Data>(dialog.FileName);
@@ -747,6 +768,12 @@ namespace Assignment4
                     default:
                         MessageBox.Show("Unable to open file; Unrecognized file extension", "Error");
                         return;
+                }
+
+                if (data.AnimalsList == null || data.FoodItems == null || data.FeedingSchedules == null)    //No data loaded
+                {
+                    MessageBox.Show("Unable to open file; serialization FAIL (Unrecognized data format)", "Error");
+                    return;
                 }
 
                 animalManager.AddRange(data.AnimalsList);
@@ -768,7 +795,9 @@ namespace Assignment4
             }
         }
 
-
+        /// <summary>
+        /// Saves the current open file (only ".bin" or ".xml" can be open)
+        /// </summary>
         private void FileMenu_save_Click(object sender, EventArgs e)
         {
             string extension = Path.GetExtension(SaveManager.FilePath);
@@ -793,7 +822,9 @@ namespace Assignment4
             MessageBox.Show($"Successfully saved file: \"{SaveManager.FileName}\"");
         }
 
-
+        /// <summary>
+        /// Prompts the user to save the file as binary
+        /// </summary>
         private void FileMenu_saveAs_binary_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = SaveManager.CreateSaveDialog("Save File as Binary", "Binary file|*.bin");
@@ -803,12 +834,15 @@ namespace Assignment4
                 Binary_Serializer.Serialize(GetSaveData(), dialog.FileName);
                 SaveManager.FilePath = dialog.FileName;
                 FileMenu_save.Enabled = true;
+
+                this.Text = SaveManager.FileName;
+                MessageBox.Show($"Successfully saved file to: \"{SaveManager.FilePath}\"");
             }
-
-            this.Text = SaveManager.FileName;
-
-            MessageBox.Show($"Successfully saved file to: \"{SaveManager.FilePath}\"");
         }
+
+        /// <summary>
+        /// Prompts the user to save the file as XML
+        /// </summary>
         private void FileMenu_saveAs_xml_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = SaveManager.CreateSaveDialog("Save File as XML", "XML file|*.xml");
@@ -818,14 +852,15 @@ namespace Assignment4
                 XML_Serializer.Serialize(GetSaveData(), dialog.FileName);
                 SaveManager.FilePath = dialog.FileName;
                 FileMenu_save.Enabled = true;
+
+                this.Text = SaveManager.FileName;
+                MessageBox.Show($"Successfully saved file to: \"{SaveManager.FilePath}\"");
             }
-
-            this.Text = SaveManager.FileName;
-
-            MessageBox.Show($"Successfully saved file to: \"{SaveManager.FilePath}\"");
         }
 
-
+        /// <summary>
+        /// Prompts the user to export the data to a text file
+        /// </summary>
         private void FileMenu_exportAs_text_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = SaveManager.CreateSaveDialog("Save File as Text", "Text file|*.txt");
@@ -833,12 +868,13 @@ namespace Assignment4
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 SaveManager.ExportAsTextFile(GetSaveData(), dialog.FileName);
+                MessageBox.Show($"Successfully exported file to: \"{dialog.FileName}\"");
             }
-
-            MessageBox.Show($"Successfully exported file to: \"{dialog.FileName}\"");
         }
 
-
+        /// <summary>
+        /// Prompts the user to exit the application
+        /// </summary>
         private void FileMenu_exit_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to quit the program?\nAny unsaved changed may be lost", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -848,7 +884,10 @@ namespace Assignment4
             }
         }
 
-
+        /// <summary>
+        /// Helper function for retrieving the underlying data
+        /// </summary>
+        /// <returns>A Data-object containing all underlying data</returns>
         private Data GetSaveData()
         {
             Data data = new Data()
@@ -859,7 +898,6 @@ namespace Assignment4
             };
             return data;
         }
-
         #endregion //File_Menu
     }
 
