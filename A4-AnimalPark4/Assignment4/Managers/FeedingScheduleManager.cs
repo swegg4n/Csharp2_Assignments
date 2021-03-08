@@ -11,9 +11,9 @@ namespace Assignment4
         /// <summary>
         /// Tries to create a connection between selected animal and feeding schedule
         /// </summary>
-        public void AddConnection(int feedingScheduleID, int animalID)
+        public bool AddConnection(int feedingScheduleID, int animalID)
         {
-            base.m_list[feedingScheduleID].AddConnection(animalID);
+            return base.m_list[feedingScheduleID].AddConnection(animalID);
         }
     }
 

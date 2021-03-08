@@ -7,4 +7,5 @@
     public enum EaterType { Carnivore, Herbivore, Omnivorous };
 
     public enum SortMethods { ID, Name, Age, Species }
+
 }

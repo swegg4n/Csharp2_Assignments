@@ -9,20 +9,12 @@ namespace Assignment4
     public class FeedingSchedule
     {
         public string Diet { get; set; }
-        public ListManager<string> FoodDescriptions { get; set; }
-        public ListManager<int> Connections { get; private set; }
+        public ListManager<string> FoodDescriptions { get; set; } = new ListManager<string>();
+        public ListManager<int> Connections { get; private set; } = new ListManager<int>();
 
         public int Count { get { return FoodDescriptions.Count; } }
 
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public FeedingSchedule()
-        {
-            FoodDescriptions = new ListManager<string>();
-            Connections = new ListManager<int>();
-        }
 
         /// <summary>
         /// Adds entry: <paramref name="animalID"/> to the list if the entry is unique
@@ -36,6 +28,15 @@ namespace Assignment4
                 return true;
             }
             return false;
+        }
+
+
+        /// <summary>
+        /// Returns the feeding schedule data as a string
+        /// </summary>
+        public new string ToString()
+        {
+            return $"Diet: {this.Diet},  FoodDescriptions: {this.FoodDescriptions.ToString()},  Connections: {this.Connections.ToString()}";
         }
 
         /// <summary>

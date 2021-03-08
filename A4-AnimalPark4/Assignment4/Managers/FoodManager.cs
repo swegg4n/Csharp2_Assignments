@@ -8,9 +8,9 @@
         /// <summary>
         /// Tries to create a connection between selected animal and food item
         /// </summary>
-        public void AddConnection(int foodItemID, int animalID)
+        public bool AddConnection(int foodItemID, int animalID)
         {
-            base.m_list[foodItemID].AddConnection(animalID);
+            return base.m_list[foodItemID].AddConnection(animalID);
         }
     }
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Assignment4
@@ -52,6 +53,7 @@ namespace Assignment4
                 { Species.Monkey, new Control[] {  Species_tailLength_label, Species_tailLength_input } },
             };
 
+            this.Text = "Untitled Animal Park  *";
             ResetForm();
         }
 
@@ -84,8 +86,7 @@ namespace Assignment4
             Animal_remove_input.Enabled = false;
             Animal_change_input.Enabled = false;
 
-            FileMenu_save_text.Enabled = false;
-            FileMenu_save_binary.Enabled = false;
+            FileMenu_save.Enabled = false;
 
             loadedImage = null;
             AnimalImage.Image = null;
@@ -108,6 +109,8 @@ namespace Assignment4
                     FillAnimalsListView();
                     List_sort_input.SelectedIndex = -1;
                     MessageBox.Show("Animal successfully created!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    ChangeWasMade();
                 }
             }
             else
@@ -126,6 +129,8 @@ namespace Assignment4
 
             FillAnimalsListView();
             List_sort_input.SelectedIndex = -1;
+
+            ChangeWasMade();
         }
 
         private void Animal_change_input_Click(object sender, EventArgs e)
@@ -142,6 +147,8 @@ namespace Assignment4
                 FillAnimalsListView();
                 List_sort_input.SelectedIndex = -1;
                 MessageBox.Show("Animal successfully changed!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ChangeWasMade();
             }
             else
             {
@@ -160,6 +167,8 @@ namespace Assignment4
 
             FillAnimalsListView();
             List_sort_input.SelectedIndex = -1;
+
+            ChangeWasMade();
         }
 
 
@@ -581,8 +590,11 @@ namespace Assignment4
             {
                 animalManager.SortAnimals((SortMethods)List_sort_input.SelectedIndex);
                 FillAnimalsListView();
+
+                ChangeWasMade();
             }
         }
+
 
         /// <summary>
         /// Button click event for adding a new food item
@@ -601,6 +613,8 @@ namespace Assignment4
 
                 for (int c = 0; c < foodItem.Length; c++)
                     FoodItems_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
+
+                ChangeWasMade();
             }
         }
         /// <summary>
@@ -620,6 +634,8 @@ namespace Assignment4
 
                 for (int c = 0; c < feedingSchedule.Length; c++)
                     FeedingSchedule_list.Columns[c].Width = -2;     //Auto-resizes the columns to fit the data
+
+                ChangeWasMade();
             }
         }
 
@@ -647,10 +663,13 @@ namespace Assignment4
                 return;
             }
 
-            foodManager.AddConnection((int)selectedFoodItemIndex, (int)selectedAnimalID);
+            if (foodManager.AddConnection((int)selectedFoodItemIndex, (int)selectedAnimalID))
+            {
+                string[] foodItem = foodManager.GetAt((int)selectedFoodItemIndex).ToStringArray();
+                FoodItems_list.Items[(int)selectedFoodItemIndex] = new ListViewItem(foodItem);
 
-            string[] foodItem = foodManager.GetAt((int)selectedFoodItemIndex).ToStringArray();
-            FoodItems_list.Items[(int)selectedFoodItemIndex] = new ListViewItem(foodItem);
+                ChangeWasMade();
+            }
         }
         /// <summary>
         /// Button click event for connecting selected animal to selected food item
@@ -676,55 +695,60 @@ namespace Assignment4
                 return;
             }
 
-            feedingScheduleManager.AddConnection((int)selectedFeedingSchedule, (int)selectedAnimalID);
+            if (feedingScheduleManager.AddConnection((int)selectedFeedingSchedule, (int)selectedAnimalID))
+            {
+                string[] feedingSchedule = feedingScheduleManager.GetAt((int)selectedFeedingSchedule).ToStringArray();
+                FeedingSchedule_list.Items[(int)selectedFeedingSchedule] = new ListViewItem(feedingSchedule);
 
-            string[] feedingSchedule = feedingScheduleManager.GetAt((int)selectedFeedingSchedule).ToStringArray();
-            FeedingSchedule_list.Items[(int)selectedFeedingSchedule] = new ListViewItem(feedingSchedule);
+                ChangeWasMade();
+            }
         }
 
 
+        private void ChangeWasMade()
+        {
+            this.Text = SaveManager.FileName == null ? "Untitled Animal Park  *" : $"{SaveManager.FileName}  *";
+        }
 
+
+        #region File_Menu
 
         private void FileMenu_new_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to create a new animal park?\nAny unsaved changed may be lost", "Create New Animal Park", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 == DialogResult.Yes)
             {
+                this.Text = "Untitled Animal Park  *";
                 ResetForm();
             }
         }
 
-        private void FileMenu_open_text_Click(object sender, EventArgs e)
+        private void FileMenu_open_Click(object sender, EventArgs e)
         {
-            //OpenFileDialog dialog = LoadManager.CreateOpenDialog("Open Text File", "Text file|*.txt");
-
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    ResetForm();
-
-            //    string[] animalData = LoadManager.ReadTextFile(dialog.FileName);
-
-            //    foreach (string row in animalData)
-            //    {
-            //        //Animal a = LoadManager.TextToAnimal(row);
-            //        //animalManager.Add(animals);
-            //    }
-
-            //    FillAnimalsListView();
-
-            //    SaveManager.FilePath = dialog.FileName;
-            //    FileMenu_save_text.Enabled = true;
-            //}
-        }
-        private void FileMenu_open_binary_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = LoadManager.CreateOpenDialog("Open Binary File", "Binary file|*.bin");
+            OpenFileDialog dialog = LoadManager.CreateOpenDialog("Open File", "All files|*.bin;*.xml|Binary file|*.bin|XML file|*.xml");
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 ResetForm();
 
-                Data data = Binary_Serializer.Deserialize<Data>(dialog.FileName);
+                string extension = Path.GetExtension(dialog.FileName);
+                Data data = new Data();
+
+                switch (extension)
+                {
+                    case ".bin":
+                        data = Binary_Serializer.Deserialize<Data>(dialog.FileName);
+                        break;
+
+                    case ".xml":
+                        data = XML_Serializer.Deserialize<Data>(dialog.FileName);
+                        break;
+
+                    default:
+                        MessageBox.Show("Unable to open file; Unrecognized file extension", "Error");
+                        return;
+                }
+
                 animalManager.AddRange(data.AnimalsList);
                 foodManager.AddRange(data.FoodItems);
                 feedingScheduleManager.AddRange(data.FeedingSchedules);
@@ -736,30 +760,40 @@ namespace Assignment4
                 animalManager.SetStartID();
 
                 SaveManager.FilePath = dialog.FileName;
-                FileMenu_save_binary.Enabled = true;
+                FileMenu_save.Enabled = true;
+
+                this.Text = SaveManager.FileName;
+
+                MessageBox.Show($"Successfully opened file: \"{SaveManager.FileName}\"");
             }
         }
 
-        private void FileMenu_save_text_Click(object sender, EventArgs e)
-        {
-            SaveManager.SaveTextFile(GetSaveData());
-        }
-        private void FileMenu_save_binary_Click(object sender, EventArgs e)
-        {
-            Binary_Serializer.Serialize(GetSaveData(), SaveManager.FilePath);
-        }
 
-        private void FileMenu_saveAs_text_Click(object sender, EventArgs e)
+        private void FileMenu_save_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = SaveManager.CreateSaveDialog("Save File as Text", "Text file|*.txt");
+            string extension = Path.GetExtension(SaveManager.FilePath);
 
-            if (dialog.ShowDialog() == DialogResult.OK)
+            switch (extension)
             {
-                SaveManager.SaveAsTextFile(GetSaveData(), dialog.FileName);
-                SaveManager.FilePath = dialog.FileName;
-                FileMenu_save_text.Enabled = true;
+                case ".bin":
+                    Binary_Serializer.Serialize<Data>(GetSaveData(), SaveManager.FilePath);
+                    break;
+
+                case ".xml":
+                    XML_Serializer.Serialize<Data>(GetSaveData(), SaveManager.FilePath);
+                    break;
+
+                default:
+                    MessageBox.Show("Unable to save file; Unrecognized file extension", "Error");
+                    return;
             }
+
+            this.Text = SaveManager.FileName;
+
+            MessageBox.Show($"Successfully saved file: \"{SaveManager.FileName}\"");
         }
+
+
         private void FileMenu_saveAs_binary_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = SaveManager.CreateSaveDialog("Save File as Binary", "Binary file|*.bin");
@@ -768,37 +802,42 @@ namespace Assignment4
             {
                 Binary_Serializer.Serialize(GetSaveData(), dialog.FileName);
                 SaveManager.FilePath = dialog.FileName;
-                FileMenu_save_binary.Enabled = true;
+                FileMenu_save.Enabled = true;
             }
+
+            this.Text = SaveManager.FileName;
+
+            MessageBox.Show($"Successfully saved file to: \"{SaveManager.FilePath}\"");
         }
-
-        private void FileMenu_xml_import_Click(object sender, EventArgs e)
+        private void FileMenu_saveAs_xml_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = LoadManager.CreateOpenDialog("Open XML File", "XML file|*.xml");
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                ResetForm();
-
-                Data data = XML_Serializer.Deserialize<Data>(dialog.FileName);
-                animalManager.AddRange(data.AnimalsList);
-                foodManager.AddRange(data.FoodItems);
-                feedingScheduleManager.AddRange(data.FeedingSchedules);
-
-                FillAnimalsListView();
-                FillFoodItemsListView();
-                FillFeedingSchedulesListView();
-            }
-        }
-        private void FileMenu_xml_export_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog dialog = SaveManager.CreateSaveDialog("Export as XML", "XML file|*.xml");
+            SaveFileDialog dialog = SaveManager.CreateSaveDialog("Save File as XML", "XML file|*.xml");
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 XML_Serializer.Serialize(GetSaveData(), dialog.FileName);
+                SaveManager.FilePath = dialog.FileName;
+                FileMenu_save.Enabled = true;
             }
+
+            this.Text = SaveManager.FileName;
+
+            MessageBox.Show($"Successfully saved file to: \"{SaveManager.FilePath}\"");
         }
+
+
+        private void FileMenu_exportAs_text_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = SaveManager.CreateSaveDialog("Save File as Text", "Text file|*.txt");
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                SaveManager.ExportAsTextFile(GetSaveData(), dialog.FileName);
+            }
+
+            MessageBox.Show($"Successfully exported file to: \"{dialog.FileName}\"");
+        }
+
 
         private void FileMenu_exit_Click(object sender, EventArgs e)
         {
@@ -821,6 +860,7 @@ namespace Assignment4
             return data;
         }
 
+        #endregion //File_Menu
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Assignment4
 {
@@ -6,15 +7,10 @@ namespace Assignment4
     public class FoodItem
     {
         public string Name { get; set; }
-        public ListManager<string> Ingredients { get; set; }
-        public ListManager<int> Connections { get; private set; }
+        public ListManager<string> Ingredients { get; set; } = new ListManager<string>();
+        public ListManager<int> Connections { get; private set; } = new ListManager<int>();
 
 
-        public FoodItem()
-        {
-            Ingredients = new ListManager<string>();
-            Connections = new ListManager<int>();
-        }
 
         /// <summary>
         /// Adds entry: <paramref name="animalID"/> to the list if the entry is unique
@@ -28,6 +24,15 @@ namespace Assignment4
                 return true;
             }
             return false;
+        }
+
+
+        /// <summary>
+        /// Returns the food item data as a string
+        /// </summary>
+        public new string ToString()
+        {
+            return $"Name: {this.Name},  Ingredients: {this.Ingredients.ToString()},  Connections: {this.Connections.ToString()}";
         }
 
         /// <summary>
