@@ -1,0 +1,14 @@
+Animals [
+ID: 0,  Name: AAA,  Age: 1, Gender: Female,  Species: Dog,  Category: Mammal,  Number of teeth: 15,  Fur color: <175, 169, 131>,  Breed: chayathonwong
+ID: 1,  Name: BBB,  Age: 2, Gender: Male,  Species: Dog,  Category: Mammal,  Number of teeth: 15,  Fur color: <192, 192, 192>,  Breed: husky
+ID: 2,  Name: CCC,  Age: 3, Gender: Unknown,  Species: Monkey,  Category: Mammal,  Number of teeth: 18,  Fur color: <128, 64, 64>,  Tail length: 15 cm
+]
+FoodItems [
+Name: Dog food,  Ingredients: 3 cups of dog food, water,  Connections: 0, 1
+Name: Monkey food 1,  Ingredients: Bananas, water,  Connections: 2
+Name: Monkey food 2,  Ingredients: various fruits, various nuts, water,  Connections: 2
+]
+FeedingSchedules [
+Diet: Omnivorous,  FoodDescriptions: (Breakfast) Dog food, (Lunch) Dog food, (Evening) Dog food,  Connections: 0, 1
+Diet: Omnivorous,  FoodDescriptions: (Breakfast) Monkey food 1, (Lunch) Monkey food 2, (Evening) Monkey food 2,  Connections: 2
+]

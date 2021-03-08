@@ -12,7 +12,7 @@ namespace Assignment4.Utility
         /// </summary>
         public static void Serialize<T>(T obj, string path)
         {
-            if (obj == null)
+            if (obj != null)
             {
                 using (FileStream fileStream = File.Create(path))
                 {
@@ -50,7 +50,7 @@ namespace Assignment4.Utility
         /// </summary>
         public static void Serialize<T>(T obj, string path)
         {
-            if (obj == null)
+            if (obj != null)
             {
                 using (FileStream fileStream = File.Create(path))
                 {
