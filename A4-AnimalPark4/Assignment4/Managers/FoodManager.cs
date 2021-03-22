@@ -10,7 +10,7 @@
         /// </summary>
         public bool AddConnection(int foodItemID, int animalID)
         {
-            return base.m_list[foodItemID].AddConnection(animalID);
+            return base.Data()[foodItemID].AddConnection(animalID);
         }
     }
 

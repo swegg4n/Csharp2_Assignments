@@ -1,0 +1,5 @@
+Animals [
+ID: 0,  Name: AAA,  Age: 1, Gender: Female,  Species: Dog,  Category: Mammal,  Number of teeth: 15,  Fur color: <175, 169, 131>,  Breed: chayathonwong
+ID: 1,  Name: BBB,  Age: 2, Gender: Male,  Species: Dog,  Category: Mammal,  Number of teeth: 15,  Fur color: <192, 192, 192>,  Breed: husky
+ID: 2,  Name: CCC,  Age: 3, Gender: Unknown,  Species: Monkey,  Category: Mammal,  Number of teeth: 18,  Fur color: <128, 64, 64>,  Tail length: 15 cm
+]

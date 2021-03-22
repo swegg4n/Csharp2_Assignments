@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assignment4.Utility;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,23 +12,35 @@ namespace Assignment4
     [Serializable]
     public class ListManager<T> : IListManager<T>, IEnumerable<T>
     {
-        protected List<T> m_list = new List<T>();
+        private List<T> m_list = new List<T>();
         public int Count { get { return m_list.Count; } }
 
         /// <summary>
         /// Adds an element to the list
         /// </summary>
-        public void Add(T t)
+        public bool Add(T t)
         {
-            m_list.Add(t);
+            if (t != null)
+            {
+                m_list.Add(t);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         /// <summary>
         /// Adds a collection of elements to the list
         /// </summary>
-        public void AddRange(ICollection<T> t)
+        public bool AddRange(ICollection<T> t)
         {
             foreach (T _t in t)
-                this.Add(_t);
+            {
+                if (this.Add(_t) == false)
+                    return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -173,5 +186,37 @@ namespace Assignment4
             return m_list.GetEnumerator();
         }
 
+
+        /// <summary>
+        /// Serializes this list's data to <paramref name="fileName"/>, using a binary serializer
+        /// </summary>
+        public bool BinarySerialize(string fileName)
+        {
+            return Binary_Serializer.Serialize<List<T>>(m_list, fileName);
+        }
+
+        /// <summary>
+        /// Deserializes the data in file: <paramref name="fileName"/>, as binary
+        /// </summary>
+        public bool BinaryDeserialize(string fileName)
+        {
+            return AddRange(Binary_Serializer.Deserialize<List<T>>(fileName));
+        }
+
+        /// <summary>
+        /// Serializes this list's data to <paramref name="fileName"/>, using an XML serializer
+        /// </summary>
+        public bool XmlSerialize(string fileName)
+        {
+            return XML_Serializer.Serialize<List<T>>(m_list, fileName);
+        }
+
+        /// <summary>
+        /// Deserializes the data in file: <paramref name="fileName"/>, as XML
+        /// </summary>
+        public bool XmlDeserialize(string fileName)
+        {
+            return AddRange(XML_Serializer.Deserialize<List<T>>(fileName));
+        }
     }
 }

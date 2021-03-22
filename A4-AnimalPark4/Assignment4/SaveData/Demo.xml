@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ArrayOfAnimal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Animal xsi:type="Dog">
+    <ID>0</ID>
+    <Name>AAA</Name>
+    <Age>1</Age>
+    <Gender>Female</Gender>
+    <NumberOfTeeth>15</NumberOfTeeth>
+    <FurColor>r6mD</FurColor>
+    <Breed>chayathonwong</Breed>
+  </Animal>
+  <Animal xsi:type="Dog">
+    <ID>1</ID>
+    <Name>BBB</Name>
+    <Age>2</Age>
+    <Gender>Male</Gender>
+    <NumberOfTeeth>15</NumberOfTeeth>
+    <FurColor>wMDA</FurColor>
+    <Breed>husky</Breed>
+  </Animal>
+  <Animal xsi:type="Monkey">
+    <ID>2</ID>
+    <Name>CCC</Name>
+    <Age>3</Age>
+    <Gender>Unknown</Gender>
+    <NumberOfTeeth>18</NumberOfTeeth>
+    <FurColor>gEBA</FurColor>
+    <TailLength>15</TailLength>
+  </Animal>
+</ArrayOfAnimal>

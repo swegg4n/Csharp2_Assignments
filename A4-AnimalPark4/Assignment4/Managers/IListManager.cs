@@ -14,14 +14,14 @@ namespace Assignment4
         int Count { get; }
 
         /// <summary>
-        /// Adds an element to the list
+        /// Tries to add an element to the list
         /// </summary>
-        void Add(T t);
+        bool Add(T t);
 
         /// <summary>
-        /// Adds a collection of elements to the list
+        /// Tries to add a collection of elements to the list
         /// </summary>
-        void AddRange(ICollection<T> t);
+        bool AddRange(ICollection<T> t);
 
         /// <summary>
         /// Tries to change the element at position: <paramref name="index"/> in the list to value: <typeparamref name="T"/>
@@ -77,5 +77,26 @@ namespace Assignment4
         /// Returns the list data as a string list
         /// </summary>
         List<string> ToStringList();
+
+
+        /// <summary>
+        /// Serializes this list's data to <paramref name="fileName"/>, using a binary serializer
+        /// </summary>
+        bool BinarySerialize(string fileName);
+
+        /// <summary>
+        /// Deserializes the data in file: <paramref name="fileName"/>, as binary
+        /// </summary>
+        bool BinaryDeserialize(string fileName);
+
+        /// <summary>
+        /// Serializes this list's data to <paramref name="fileName"/>, using an XML serializer
+        /// </summary>
+        bool XmlSerialize(string filename);
+
+        /// <summary>
+        /// Deserializes the data in file: <paramref name="fileName"/>, as XML
+        /// </summary>
+        bool XmlDeserialize(string filename);
     }
 }

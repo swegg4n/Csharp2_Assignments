@@ -10,7 +10,7 @@ namespace Assignment4.Utility
         /// <summary>
         /// Serializes object: <paramref name="obj"/> to a new file located at: <paramref name="path"/>, using a binary formatter
         /// </summary>
-        public static void Serialize<T>(T obj, string path)
+        public static bool Serialize<T>(T obj, string path)
         {
             if (obj != null)
             {
@@ -20,7 +20,9 @@ namespace Assignment4.Utility
 
                     formatter.Serialize(fileStream, obj);
                 }
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -32,12 +34,8 @@ namespace Assignment4.Utility
             {
                 BinaryFormatter formatter = new BinaryFormatter();
 
-                try
-                {
-                    T obj = (T)formatter.Deserialize(fileStream);
-                    return obj;
-                }
-                catch { return default; }
+                T obj = (T)formatter.Deserialize(fileStream);
+                return obj;
             }
         }
 
@@ -48,7 +46,7 @@ namespace Assignment4.Utility
         /// <summary>
         /// Serializes object: <paramref name="obj"/> to a new file located at: <paramref name="path"/>, using an XML serializer
         /// </summary>
-        public static void Serialize<T>(T obj, string path)
+        public static bool Serialize<T>(T obj, string path)
         {
             if (obj != null)
             {
@@ -58,7 +56,9 @@ namespace Assignment4.Utility
 
                     xmlSerializer.Serialize(fileStream, obj);
                 }
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -70,12 +70,8 @@ namespace Assignment4.Utility
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
 
-                try
-                {
-                    T obj = (T)xmlSerializer.Deserialize(fileStream);
-                    return obj;
-                }
-                catch { return default; }
+                T obj = (T)xmlSerializer.Deserialize(fileStream);
+                return obj;
             }
         }
     }

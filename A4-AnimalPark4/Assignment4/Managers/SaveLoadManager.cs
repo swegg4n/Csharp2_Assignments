@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Assignment4
@@ -10,7 +11,7 @@ namespace Assignment4
     {
         public static string SaveDataPath   //Creates a relative path to a prederermined folder with SaveData
         {
-            get 
+            get
             {
 #if DEBUG
                 int trimcount = 10;
@@ -64,23 +65,13 @@ namespace Assignment4
         /// <summary>
         /// Helper function for exporting the data: <paramref name="data"/> as text with a custom format, to path: <paramref name="path"/>
         /// </summary>
-        public static void ExportAsTextFile(Data data, string path)
+        public static void ExportAsTextFile(List<Animal> data, string path)
         {
             using (StreamWriter writer = new StreamWriter(path))
             {
                 writer.WriteLine("Animals [");
-                foreach (Animal animal in data.AnimalsList)
-                    writer.WriteLine(animal.ToString());
-                writer.WriteLine("]");
-
-                writer.WriteLine("FoodItems [");
-                foreach (FoodItem foodItem in data.FoodItems)
-                    writer.WriteLine(foodItem.ToString());
-                writer.WriteLine("]");
-
-                writer.WriteLine("FeedingSchedules [");
-                foreach (FeedingSchedule feedingSchedule in data.FeedingSchedules)
-                    writer.WriteLine(feedingSchedule.ToString());
+                foreach (Animal a in data)
+                    writer.WriteLine(a.ToString());
                 writer.WriteLine("]");
             }
         }

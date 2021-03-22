@@ -753,32 +753,31 @@ namespace Assignment4
                 ResetForm();
 
                 string extension = Path.GetExtension(dialog.FileName);
-                Data data;
 
-                switch (extension)  //Automatically chooses serializer based on file extension
+                try
                 {
-                    case ".bin":
-                        data = Binary_Serializer.Deserialize<Data>(dialog.FileName);
-                        break;
+                    switch (extension)  //Automatically chooses serializer based on file extension
+                    {
+                        case ".bin":
+                            animalManager.BinaryDeserialize(dialog.FileName);
+                            //data = Binary_Serializer.Deserialize<Data>(dialog.FileName);
+                            break;
 
-                    case ".xml":
-                        data = XML_Serializer.Deserialize<Data>(dialog.FileName);
-                        break;
+                        case ".xml":
+                            animalManager.XmlDeserialize(dialog.FileName);
+                            //data = XML_Serializer.Deserialize<Data>(dialog.FileName);
+                            break;
 
-                    default:
-                        MessageBox.Show("Unable to open file; Unrecognized file extension", "Error");
-                        return;
+                        default:
+                            MessageBox.Show("Unable to open file; Unrecognized file extension", "Error");
+                            return;
+                    }
                 }
-
-                if (data.AnimalsList == null || data.FoodItems == null || data.FeedingSchedules == null)    //No data loaded
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Unable to open file; serialization FAIL (Unrecognized data format)", "Error");
+                    MessageBox.Show(ex.ToString());
                     return;
                 }
-
-                animalManager.AddRange(data.AnimalsList);
-                foodManager.AddRange(data.FoodItems);
-                feedingScheduleManager.AddRange(data.FeedingSchedules);
 
                 FillAnimalsListView();
                 FillFoodItemsListView();
@@ -802,19 +801,27 @@ namespace Assignment4
         {
             string extension = Path.GetExtension(SaveManager.FilePath);
 
-            switch (extension)
+            try
             {
-                case ".bin":
-                    Binary_Serializer.Serialize<Data>(GetSaveData(), SaveManager.FilePath);
-                    break;
+                switch (extension)
+                {
+                    case ".bin":
+                        animalManager.BinarySerialize(SaveManager.FilePath);
+                        break;
 
-                case ".xml":
-                    XML_Serializer.Serialize<Data>(GetSaveData(), SaveManager.FilePath);
-                    break;
+                    case ".xml":
+                        animalManager.XmlSerialize(SaveManager.FilePath);
+                        break;
 
-                default:
-                    MessageBox.Show("Unable to save file; Unrecognized file extension", "Error");
-                    return;
+                    default:
+                        MessageBox.Show("Unable to save file; Unrecognized file extension", "Error");
+                        return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return;
             }
 
             this.Text = SaveManager.FileName;
@@ -831,7 +838,16 @@ namespace Assignment4
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Binary_Serializer.Serialize(GetSaveData(), dialog.FileName);
+                try
+                {
+                    animalManager.BinarySerialize(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(text: ex.ToString());
+                    return;
+                }
+
                 SaveManager.FilePath = dialog.FileName;
                 FileMenu_save.Enabled = true;
 
@@ -849,7 +865,15 @@ namespace Assignment4
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                XML_Serializer.Serialize(GetSaveData(), dialog.FileName);
+                try
+                {
+                    animalManager.XmlSerialize(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(text: ex.ToString());
+                    return;
+                }
                 SaveManager.FilePath = dialog.FileName;
                 FileMenu_save.Enabled = true;
 
@@ -867,7 +891,7 @@ namespace Assignment4
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                SaveManager.ExportAsTextFile(GetSaveData(), dialog.FileName);
+                SaveManager.ExportAsTextFile(animalManager.Data(), dialog.FileName);
                 MessageBox.Show($"Successfully exported file to: \"{dialog.FileName}\"");
             }
         }
@@ -884,20 +908,6 @@ namespace Assignment4
             }
         }
 
-        /// <summary>
-        /// Helper function for retrieving the underlying data
-        /// </summary>
-        /// <returns>A Data-object containing all underlying data</returns>
-        private Data GetSaveData()
-        {
-            Data data = new Data()
-            {
-                AnimalsList = animalManager.Data(),
-                FoodItems = foodManager.Data(),
-                FeedingSchedules = feedingScheduleManager.Data()
-            };
-            return data;
-        }
         #endregion //File_Menu
     }
 

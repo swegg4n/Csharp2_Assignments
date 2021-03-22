@@ -13,7 +13,7 @@ namespace Assignment4
         /// </summary>
         public bool AddConnection(int feedingScheduleID, int animalID)
         {
-            return base.m_list[feedingScheduleID].AddConnection(animalID);
+            return base.Data()[feedingScheduleID].AddConnection(animalID);
         }
     }
 

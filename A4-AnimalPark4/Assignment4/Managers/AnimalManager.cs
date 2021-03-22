@@ -31,12 +31,11 @@ namespace Assignment4
         {
             int largestID = int.MinValue;
 
-            foreach (Animal a in base.m_list)
+            foreach (Animal a in base.Data())
                 largestID = a.ID > largestID ? a.ID : largestID;
 
             animalID = largestID + 1;
         }
-
 
 
         //Sort methods, specific to the animal manager
