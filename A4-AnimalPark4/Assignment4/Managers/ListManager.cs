@@ -198,9 +198,9 @@ namespace Assignment4
         /// <summary>
         /// Deserializes the data in file: <paramref name="fileName"/>, as binary
         /// </summary>
-        public bool BinaryDeserialize(string fileName)
+        public void BinaryDeserialize(string fileName)
         {
-            return AddRange(Binary_Serializer.Deserialize<List<T>>(fileName));
+            m_list = Binary_Serializer.Deserialize<List<T>>(fileName);
         }
 
         /// <summary>
@@ -214,9 +214,10 @@ namespace Assignment4
         /// <summary>
         /// Deserializes the data in file: <paramref name="fileName"/>, as XML
         /// </summary>
-        public bool XmlDeserialize(string fileName)
+        public void XmlDeserialize(string fileName)
         {
-            return AddRange(XML_Serializer.Deserialize<List<T>>(fileName));
+            m_list = XML_Serializer.Deserialize<List<T>>(fileName);
         }
+
     }
 }

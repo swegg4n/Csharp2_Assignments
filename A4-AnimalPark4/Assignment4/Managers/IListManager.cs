@@ -87,7 +87,7 @@ namespace Assignment4
         /// <summary>
         /// Deserializes the data in file: <paramref name="fileName"/>, as binary
         /// </summary>
-        bool BinaryDeserialize(string fileName);
+        void BinaryDeserialize(string fileName);
 
         /// <summary>
         /// Serializes this list's data to <paramref name="fileName"/>, using an XML serializer
@@ -97,6 +97,6 @@ namespace Assignment4
         /// <summary>
         /// Deserializes the data in file: <paramref name="fileName"/>, as XML
         /// </summary>
-        bool XmlDeserialize(string filename);
+        void XmlDeserialize(string filename);
     }
 }
