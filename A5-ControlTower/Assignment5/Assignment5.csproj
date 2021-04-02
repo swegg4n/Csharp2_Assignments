@@ -67,6 +67,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FlightLogData.cs" />
     <Compile Include="FlightUpdated_EventArgs.cs" />
     <Compile Include="FlightWindow_publisher.xaml.cs">
       <DependentUpon>FlightWindow_publisher.xaml</DependentUpon>
@@ -102,11 +103,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="logos_spritesheet.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logos_spritesheet.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

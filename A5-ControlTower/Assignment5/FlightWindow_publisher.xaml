@@ -7,9 +7,16 @@
         mc:Ignorable="d" Height="316" Width="350">
     <Grid>
         <Button x:Name="Start" Content="Start" HorizontalAlignment="Left" Margin="10,0,0,10" Width="80" Height="30" VerticalAlignment="Bottom" Click="Start_Click"/>
-        <ComboBox x:Name="ChangeRoute" Margin="95,0,95,10" Height="30" VerticalAlignment="Bottom" SelectionChanged="ChangeRoute_SelectionChanged" />
+        <ComboBox x:Name="ChangeRoute" Text="-Change route-" IsEditable="True" IsReadOnly="True" Margin="95,0,95,10" Height="30" VerticalAlignment="Bottom" SelectionChanged="ChangeRoute_SelectionChanged">
+            <ComboBoxItem Content="-45"/>
+            <ComboBoxItem Content="-30"/>
+            <ComboBoxItem Content="-15"/>
+            <ComboBoxItem Content="15"/>
+            <ComboBoxItem Content="30"/>
+            <ComboBoxItem Content="45"/>
+        </ComboBox>
         <Button x:Name="Land" Content="Land" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Right" Width="80" Click="Land_Click"/>
-        <Image Margin="10,10,10,50" Source="logos_spritesheet.jpg" Stretch="Fill"/>
+        <Image x:Name="FlightImage" Margin="10,10,10,50" Source="logos_spritesheet.jpg" Stretch="Fill"/>
 
     </Grid>
 </Window>

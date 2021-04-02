@@ -4,18 +4,15 @@ namespace Assignment5
 {
     public class FlightUpdated_EventArgs : EventArgs
     {
-        private string flightCode;
-        private string status;
+        public string FlightCode { get; private set; }
+        public string Status { get; private set; }
+        public string Time { get; private set; }
 
         public FlightUpdated_EventArgs(string flightCode, string status)
         {
-            this.flightCode = flightCode;
-            this.status = status;
-        }
-
-        public string[] ToStringArray()
-        {
-            return new string[] { flightCode, status, DateTime.Now.ToShortTimeString() };
+            this.FlightCode = flightCode;
+            this.Status = status;
+            this.Time = DateTime.Now.ToLongTimeString();
         }
     }
 

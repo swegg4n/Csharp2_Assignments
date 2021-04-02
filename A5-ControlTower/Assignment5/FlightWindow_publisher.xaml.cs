@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Assignment5
 {
@@ -19,38 +10,55 @@ namespace Assignment5
     /// </summary>
     public partial class FlightWindow_publisher : Window
     {
+        Random random = new Random();
+
         public FlightWindow_publisher(string flightCode)
         {
             InitializeComponent();
 
             Title = flightCode;
+            SetRandomImg();
+        }
+
+        private void SetRandomImg()
+        {
+            int width = 177;
+            int height = 133;
+            int xPos = random.Next(0, 6) * width;
+            int yPos = random.Next(0, 7) * height;
+            CroppedBitmap cb = new CroppedBitmap(FlightImage.Source as BitmapSource, new Int32Rect(xPos, yPos, width, height));
+            FlightImage.Source = cb;
         }
 
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            FlightUpdated_EventArgs startEvent = new FlightUpdated_EventArgs();
+            FlightUpdated_EventArgs startEvent = new FlightUpdated_EventArgs(this.Title, "Started");
             OnFlightUpdated(startEvent);
         }
 
         private void ChangeRoute_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FlightUpdated_EventArgs changeRouteEvent = new FlightUpdated_EventArgs();
-            OnFlightUpdated(changeRouteEvent);
+            if (ChangeRoute != null && ChangeRoute.SelectedItem != null)
+            {
+                string dir = (ChangeRoute.SelectedItem as ComboBoxItem).Content.ToString();
+                FlightUpdated_EventArgs changeRouteEvent = new FlightUpdated_EventArgs(this.Title, $"Now heading {dir} deg.");
+                OnFlightUpdated(changeRouteEvent);
+            }
         }
 
         private void Land_Click(object sender, RoutedEventArgs e)
         {
-            FlightUpdated_EventArgs landEvent = new FlightUpdated_EventArgs();
+            FlightUpdated_EventArgs landEvent = new FlightUpdated_EventArgs(this.Title, "Landing");
             OnFlightUpdated(landEvent);
         }
 
-        public event EventHandler<EventArgs> flightChange;
+        public event EventHandler<FlightUpdated_EventArgs> FlightUpdate;
 
 
         public void OnFlightUpdated(FlightUpdated_EventArgs e)
         {
-
+            FlightUpdate?.Invoke(this, e);
         }
     }
 
