@@ -20,6 +20,10 @@ namespace Assignment5
         {
             InitializeComponent();
 
+            Start.IsEnabled = true;    //Updates the UI elements (for better UX)
+            ChangeRoute.IsEnabled = false;
+            Land.IsEnabled = false;
+
             Title = flightCode;
             SetRandomImg();
         }
@@ -42,6 +46,10 @@ namespace Assignment5
         /// </summary>
         private void Start_Click(object sender, RoutedEventArgs e)
         {
+            Start.IsEnabled = false;    //Updates the UI elements (for better UX)
+            ChangeRoute.IsEnabled = true;
+            Land.IsEnabled = true;
+
             FlightUpdated_EventArgs startEvent = new FlightUpdated_EventArgs(this.Title, "Started");
             OnFlightUpdated(startEvent);
         }
@@ -64,6 +72,10 @@ namespace Assignment5
         /// </summary>
         private void Land_Click(object sender, RoutedEventArgs e)
         {
+            Start.IsEnabled = false;    //Updates the UI elements (for better UX)
+            ChangeRoute.IsEnabled = false;
+            Land.IsEnabled = false;
+
             FlightUpdated_EventArgs landEvent = new FlightUpdated_EventArgs(this.Title, "Landing");
             OnFlightUpdated(landEvent);
         }

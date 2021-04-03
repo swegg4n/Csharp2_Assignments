@@ -10,15 +10,15 @@
         <ListView x:Name="Flights_ListView" Margin="10,10,10,46" FontSize="14" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Flight code" Width="100" DisplayMemberBinding="{Binding FlightCode}">
+                    <GridViewColumn Header="Flight code" Width="80" DisplayMemberBinding="{Binding FlightCode}">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="HorizontalContentAlignment" Value="Left" />
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
-                    <GridViewColumn Header="Status" Width="240" DisplayMemberBinding="{Binding Status}"/>
-                    <GridViewColumn Header="Time" Width="100" DisplayMemberBinding="{Binding Time}"/>
+                    <GridViewColumn Header="Status" Width="280" DisplayMemberBinding="{Binding Status}"/>
+                    <GridViewColumn Header="Time" Width="80" DisplayMemberBinding="{Binding Time}"/>
                 </GridView>
             </ListView.View>
         </ListView>

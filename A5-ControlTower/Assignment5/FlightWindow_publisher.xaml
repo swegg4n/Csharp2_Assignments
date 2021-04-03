@@ -7,7 +7,7 @@
         mc:Ignorable="d" Height="316" Width="350">
     <Grid>
         <Button x:Name="Start" Content="Start" HorizontalAlignment="Left" Margin="10,0,0,10" Width="80" Height="30" VerticalAlignment="Bottom" Click="Start_Click"/>
-        <ComboBox x:Name="ChangeRoute" Text="-Change route-" IsEditable="True" IsReadOnly="True" Margin="95,0,95,10" Height="30" VerticalAlignment="Bottom" SelectionChanged="ChangeRoute_SelectionChanged">
+        <ComboBox x:Name="ChangeRoute" Text="-Change route-" Margin="95,0,95,10" Height="30" VerticalAlignment="Bottom" SelectionChanged="ChangeRoute_SelectionChanged" IsEditable="True" IsReadOnly="True">
             <ComboBoxItem Content="-45"/>
             <ComboBoxItem Content="-30"/>
             <ComboBoxItem Content="-15"/>
