@@ -86,7 +86,6 @@ namespace Assignment5
         /// <summary>
         /// Publishes <paramref name="e"/> to the FlightUpdate-event
         /// </summary>
-        /// <param name="e"></param>
         public void OnFlightUpdated(FlightUpdated_EventArgs e)
         {
             FlightUpdate?.Invoke(this, e);

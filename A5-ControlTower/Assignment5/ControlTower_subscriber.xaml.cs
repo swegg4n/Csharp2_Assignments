@@ -47,6 +47,8 @@ namespace Assignment5
         /// </summary>
         private void SendToRunway_Click(object sender, RoutedEventArgs e)
         {
+            //No validation needed, this button is only enabled when the flight code is not null or empty
+
             CreateNewFlight(FlightCode.Text);
             FlightCode.Text = "";
             SendToRunway.IsEnabled = false;
