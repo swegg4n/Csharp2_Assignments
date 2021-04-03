@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment5
+﻿namespace Assignment5
 {
+    /// <summary>
+    /// Class used as structure for the control tower's flight log (Listview)
+    /// </summary>
     public class FlightLogData
     {
         public string FlightCode { get; set; }

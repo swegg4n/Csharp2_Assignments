@@ -20,6 +20,10 @@ namespace Assignment5
     /// </summary>
     public partial class ControlTower_subscriber : Window
     {
+        /// <summary>
+        /// Constructor
+        /// Initializes the UI-elements
+        /// </summary>
         public ControlTower_subscriber()
         {
             InitializeComponent();
@@ -29,11 +33,18 @@ namespace Assignment5
         }
 
 
+        /// <summary>
+        /// Event called when the text in the flightCode-field is changed
+        /// Used to update the SendToRunway-button
+        /// </summary>
         private void FlightCode_TextChanged(object sender, TextChangedEventArgs e)
         {
             SendToRunway.IsEnabled = (FlightCode.Text != "");
         }
 
+        /// <summary>
+        /// Send a new flight with inputted flight code to runway.
+        /// </summary>
         private void SendToRunway_Click(object sender, RoutedEventArgs e)
         {
             CreateNewFlight(FlightCode.Text);
@@ -41,7 +52,10 @@ namespace Assignment5
             SendToRunway.IsEnabled = false;
         }
 
-
+        /// <summary>
+        /// Creates a new flight (publisher) from flight code: <paramref name="flightCode"/>
+        /// </summary>
+        /// <param name="flightCode"></param>
         private void CreateNewFlight(string flightCode)
         {
             FlightWindow_publisher flight = new FlightWindow_publisher(flightCode);
@@ -49,9 +63,12 @@ namespace Assignment5
 
             LogFlight(flightCode, "Sent to runway", DateTime.Now.ToLongTimeString());
 
-            flight.FlightUpdate += LogFlight;
+            flight.FlightUpdate += LogFlight;   //subscribes "LogFlight" to the "flight.FlightUpdate"-event
         }
 
+        /// <summary>
+        /// Logs flight from EventArgs: <paramref name="e"/>
+        /// </summary>
         private void LogFlight(object sender, FlightUpdated_EventArgs e)
         {
             if (e != null)
@@ -60,6 +77,9 @@ namespace Assignment5
             }
         }
 
+        /// <summary>
+        /// General helper function for logging flight data to the control tower's flight log
+        /// </summary>
         private void LogFlight(string flightCode, string status, string time)
         {
             Flights_ListView.Items.Add(new FlightLogData()
