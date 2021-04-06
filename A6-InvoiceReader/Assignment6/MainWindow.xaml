@@ -10,11 +10,11 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_Open Invoice"/>
-                    <MenuItem Header="_Exit"/>
+                    <MenuItem x:Name="OpenInvoice" Header="_Open Invoice" Click="OpenInvoice_Click"/>
+                    <MenuItem x:Name="Exit" Header="_Exit"/>
                 </MenuItem>
             </Menu>
-            <Canvas>
+            <Canvas x:Name="Canvas">
                 <Label Content="Company" Canvas.Left="10" Canvas.Top="10"/>
                 <Label Content="Invoice nr." Canvas.Left="10" Canvas.Top="43"/>
                 <Label Content="Invoice date" Canvas.Left="10" Canvas.Top="69"/>
@@ -41,9 +41,9 @@
                 </ListView>
                 <TextBlock x:Name="RecieverBlock" Canvas.Left="428" TextWrapping="Wrap" Canvas.Top="10" Height="105" Width="143" Text="-" TextAlignment="right" RenderTransformOrigin="0.413,0.524"/>
                 <Label Content="Address" Canvas.Left="10" Canvas.Top="370" FontWeight="Bold" RenderTransformOrigin="1.018,2.846"/>
-                <TextBlock x:Name="AddressBlock" Canvas.Left="14" TextWrapping="Wrap" Text="-" Canvas.Top="396" Height="73" Width="130"/>
+                <TextBlock x:Name="AddressBlock" Canvas.Left="14" TextWrapping="Wrap" Text="-" Canvas.Top="396" Height="73" Width="160"/>
                 <Label Content="Contact" Canvas.Left="183" Canvas.Top="370" FontWeight="Bold"/>
-                <TextBlock x:Name="ContactBlock" Canvas.Left="187" TextWrapping="Wrap" Text="-" Canvas.Top="396" Height="73" Width="130"/>
+                <TextBlock x:Name="ContactBlock" Canvas.Left="187" TextWrapping="Wrap" Text="-" Canvas.Top="396" Height="73" Width="160"/>
                 <Label Content="Discount (%)" Canvas.Left="399" Canvas.Top="379"/>
                 <Label Content="Total" Canvas.Left="399" Canvas.Top="410"/>
                 <TextBox x:Name="DiscountPercentage" Height="23" Canvas.Left="498" TextWrapping="Wrap" Text="0" Canvas.Top="380" Width="73" TextAlignment="Right" VerticalContentAlignment="Center" Background="#59FFFF00" TextChanged="DiscountPercentage_TextChanged"/>

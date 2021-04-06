@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,19 +22,58 @@ namespace Assignment6
     /// </summary>
     public partial class MainWindow : Window
     {
+        Invoice loadedInvoice;
+
+
         public MainWindow()
         {
             InitializeComponent();
-            LoadFile("F:/Programming/Csharp2_Assignments/A6-InvoiceReader/Assignment6/Invoices/Invoice_1.txt");
+            Canvas.Visibility = Visibility.Hidden;
         }
 
-        Invoice loadedInvoice;
+
+
+        private void OpenInvoice_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "Open Invoice";
+            dialog.Filter = "Text files|*.txt";
+            dialog.InitialDirectory = InvoicesDataPath;
+
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                LoadFile(dialog.FileName);
+            }
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
 
 
         private void DiscountPercentage_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (loadedInvoice != null)
-                CalculateDiscountTotal();
+                CalculateDiscountedTotal();
+        }
+
+
+
+        private string InvoicesDataPath   //Creates a relative path to a prederermined folder with Invoices
+        {
+            get
+            {
+#if DEBUG
+                int trimcount = 10;
+#else
+                int trimcount = 12;
+#endif
+                string startupPath = System.AppDomain.CurrentDomain.BaseDirectory;
+                string path = startupPath.Substring(0, startupPath.Length - trimcount) + "Invoices\\";
+                return path;
+            }
         }
 
 
@@ -59,18 +99,20 @@ namespace Assignment6
             }
 
             AddressBlock.Text = loadedInvoice.SenderContact.Address + "\n" +
-                                loadedInvoice.SenderContact.Zipcode + "  " + loadedInvoice.RecieverContact.City + "\n" +
+                                loadedInvoice.SenderContact.Zipcode + "  " + loadedInvoice.SenderContact.City + "\n" +
                                 loadedInvoice.SenderContact.Country;
 
             ContactBlock.Text = loadedInvoice.PhoneNr + "\n" +
                                 loadedInvoice.WebPageURL;
 
             TotalSum.Text = loadedInvoice.Items.Sum(x => x.Total).ToString();
-            CalculateDiscountTotal();
+            CalculateDiscountedTotal();
+
+            Canvas.Visibility = Visibility.Visible;
         }
 
 
-        private void CalculateDiscountTotal()
+        private void CalculateDiscountedTotal()
         {
             float discountPercentage = 0;
             float.TryParse(DiscountPercentage.Text, out discountPercentage);
@@ -81,6 +123,7 @@ namespace Assignment6
             float total = loadedInvoice.Items.Sum(x => x.Total);
             DiscountedTotalSum.Text = (total * (1 - discountPercentage / 100)).ToString();
         }
+
     }
 
 }
