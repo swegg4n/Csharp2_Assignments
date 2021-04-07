@@ -1,19 +1,8 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Assignment6
 {
@@ -32,7 +21,11 @@ namespace Assignment6
         }
 
 
-
+        /// <summary>
+        /// Opens a file dialoge to let the user choose an invoice to open
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenInvoice_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -80,7 +73,24 @@ namespace Assignment6
         private void LoadFile(string path)
         {
             string[] lines = File.ReadAllLines(path);
-            loadedInvoice = new Invoice(lines);
+
+            try
+            {
+                loadedInvoice = new Invoice(lines);
+            }
+            catch (System.FormatException e)
+            {
+                MessageBox.Show("The loaded invoice could not be read - incorrect format\n" + e.ToString(), "Exception");
+                return;
+            }
+            catch (System.Exception e)
+            {
+                MessageBox.Show("The loaded invoice could not be read\n" + e.ToString(), "Exception");
+                return;
+            }
+
+            ItemsList.Items.Clear();
+            DiscountPercentage.Text = "0";
 
             CompanyName.Text = loadedInvoice.SenderContact.CompanyName;
             InvoiceNr.Text = loadedInvoice.InvoiceNr.ToString();

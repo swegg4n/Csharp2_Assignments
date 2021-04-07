@@ -1,0 +1,26 @@
+﻿8071
+2021-04-07
+2021-06-18
+Amazon
+Jeff Bezos
+410 Terry Ave. North
+98109-5210
+Seattle
+United States
+2
+Product 1
+90
+40.00
+10
+Product 2
+1000
+1.00
+900
+Microsoft
+Bill Gates
+One Microsoft Way
+98052
+Redmond
+United States
+000-123456789
+https://www.microsoft.com/

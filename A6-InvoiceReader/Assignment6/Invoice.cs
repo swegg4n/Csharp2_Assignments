@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Assignment6
+﻿namespace Assignment6
 {
     class Invoice
     {
