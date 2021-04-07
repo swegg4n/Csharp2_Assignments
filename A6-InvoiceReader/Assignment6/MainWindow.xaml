@@ -11,7 +11,7 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem x:Name="OpenInvoice" Header="_Open Invoice" Click="OpenInvoice_Click"/>
-                    <MenuItem x:Name="Exit" Header="_Exit"/>
+                    <MenuItem x:Name="Exit" Header="_Exit" Click="Exit_Click"/>
                 </MenuItem>
             </Menu>
             <Canvas x:Name="Canvas">

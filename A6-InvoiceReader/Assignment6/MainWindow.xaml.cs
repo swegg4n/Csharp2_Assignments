@@ -133,7 +133,6 @@ namespace Assignment6
             float total = loadedInvoice.Items.Sum(x => x.Total);
             DiscountedTotalSum.Text = (total * (1 - discountPercentage / 100)).ToString();
         }
-
     }
 
 }
