@@ -92,8 +92,8 @@
         {
             Description = lines[ptr++];
             Quantity = int.Parse(lines[ptr++]);
-            Price = float.Parse(lines[ptr++]);
-            TaxPercentage = float.Parse(lines[ptr++]);
+            Price = float.Parse(lines[ptr++].Replace('.', ','));
+            TaxPercentage = float.Parse(lines[ptr++].Replace('.', ','));
         }
 
         public string Description { get; private set; }

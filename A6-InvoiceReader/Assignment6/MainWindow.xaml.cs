@@ -125,7 +125,7 @@ namespace Assignment6
         private void CalculateDiscountedTotal()
         {
             float discountPercentage = 0;
-            float.TryParse(DiscountPercentage.Text, out discountPercentage);
+            float.TryParse(DiscountPercentage.Text.Replace('.',','), out discountPercentage);
 
             discountPercentage = (discountPercentage < 0.0f) ? 0.0f : discountPercentage;
             discountPercentage = (discountPercentage > 100.0f) ? 100.0f : discountPercentage;

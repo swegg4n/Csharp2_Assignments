@@ -101,5 +101,8 @@
   <ItemGroup>
     <Resource Include="Invoices\Invoice_2.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Invoices\Error_file.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
