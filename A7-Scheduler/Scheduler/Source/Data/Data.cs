@@ -5,6 +5,9 @@ using System.Drawing;
 namespace Scheduler.Source
 {
 
+    /// <summary>
+    /// Data structure for all users
+    /// </summary>
     [System.Serializable]
     class UsersData
     {
@@ -21,6 +24,9 @@ namespace Scheduler.Source
         }
     }
 
+    /// <summary>
+    /// Data structure for all events
+    /// </summary>
     [System.Serializable]
     class EventsData
     {
@@ -49,6 +55,9 @@ namespace Scheduler.Source
     }
 
 
+    /// <summary>
+    /// Data structure for users
+    /// </summary>
     [System.Serializable]
     class UserData
     {
@@ -69,6 +78,9 @@ namespace Scheduler.Source
     }
 
 
+    /// <summary>
+    /// Data structure for events
+    /// </summary>
     [System.Serializable]
     public class EventData
     {

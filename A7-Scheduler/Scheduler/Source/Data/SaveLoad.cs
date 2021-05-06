@@ -3,6 +3,9 @@ using System.Windows.Forms;
 
 namespace Scheduler.Source
 {
+    /// <summary>
+    /// Helper class used for saving, loading and syncronizing data. 
+    /// </summary>
     class SaveLoad
     {
         public static UsersData users;
@@ -35,16 +38,26 @@ namespace Scheduler.Source
         }
 
 
+        /// <summary>
+        /// Function used to refresh the saved users data.
+        /// </summary>
         public static void RenewUsersData()
         {
             users = SaveLoad.LoadUserData();
         }
+
+        /// <summary>
+        /// Function used to refresh the saved events data.
+        /// </summary>
         public static void RenewEventsData()
         {
             events = SaveLoad.LoadEventData();
         }
 
 
+        /// <summary>
+        /// Combine user data created during runtime with already saved user data
+        /// </summary>
         private static UsersData CombineUserData()
         {
             UsersData oldData = users;
@@ -65,6 +78,10 @@ namespace Scheduler.Source
 
             return newData;
         }
+
+        /// <summary>
+        /// Combine events data created during runtime with already saved events data
+        /// </summary>
         private static EventsData CombineEventData()
         {
             EventsData oldData = events;
@@ -87,6 +104,9 @@ namespace Scheduler.Source
             return newData;
         }
 
+        /// <summary>
+        /// Adds a new users data entry to <paramref name="userData"/> and saves it to file
+        /// </summary>
         public static void AppendData(UserData userData)
         {
             if (SaveLoad.users.FindUser(userData.Sign) != null)
@@ -99,6 +119,10 @@ namespace Scheduler.Source
 
             //SharePoint.WriteData(usersFileName, data);
         }
+
+        /// <summary>
+        /// Adds a new events entry to <paramref name="eventData"/> and saves it to file
+        /// </summary>
         public static void AppendData(EventData eventData)
         {
             bool entryExists = false;
@@ -124,7 +148,9 @@ namespace Scheduler.Source
             //SharePoint.WriteData(eventsFileName, data);
         }
 
-
+        /// <summary>
+        /// Removes user with sign: <paramref name="userSign"/> from the save file
+        /// </summary>
         public static void RemoveData(string userSign)
         {
             UsersData combined = CombineUserData();
@@ -136,9 +162,12 @@ namespace Scheduler.Source
             users = combined;
 
             Binary_Serializer.Serialize<UsersData>(combined, RelativePath.SaveDataPath + usersFileName);
-
             //SharePoint.WriteData(usersFileName, data);
         }
+
+        /// <summary>
+        /// Removes event: <paramref name="eventData"/> from the save file
+        /// </summary>
         public static void RemoveData(EventData eventData)
         {
             EventsData combined = CombineEventData();
@@ -154,7 +183,6 @@ namespace Scheduler.Source
             events = combined;
 
             Binary_Serializer.Serialize<EventsData>(combined, RelativePath.SaveDataPath + usersFileName);
-
             //SharePoint.WriteData(eventsFileName, data);
         }
 
@@ -162,7 +190,6 @@ namespace Scheduler.Source
         private static UsersData LoadUserData()
         {
             //string data = SharePoint.ReadData(usersFileName);
-
             UsersData users = Binary_Serializer.Deserialize<UsersData>(RelativePath.SaveDataPath + usersFileName);
 
             return users;
@@ -170,18 +197,18 @@ namespace Scheduler.Source
         private static EventsData LoadEventData()
         {
             //string data = SharePoint.ReadData(eventsFileName);
-
             EventsData events = Binary_Serializer.Deserialize<EventsData>(RelativePath.SaveDataPath + eventsFileName);
 
             return events;
         }
 
 
+        //used for testing
         public static void CreateEmptyUserFile()
         {
             Binary_Serializer.Serialize<UsersData>(new UsersData(), RelativePath.SaveDataPath + usersFileName);
         }
-
+        //used for testing
         public static void CreateEmptyEventsFile()
         {
             Binary_Serializer.Serialize<EventsData>(new EventsData(), RelativePath.SaveDataPath + eventsFileName);

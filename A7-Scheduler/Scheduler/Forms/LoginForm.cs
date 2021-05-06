@@ -4,7 +4,7 @@ namespace Scheduler
 {
     public partial class LoginForm : Form
     {
-        private string password = "1245";
+        private string password = "1234";
 
         private CalendarForm calForm;
         private AdminForm adminForm;
@@ -23,6 +23,10 @@ namespace Scheduler
             PasswordInput_Login.Focus();
         }
 
+        /// <summary>
+        /// Validates if the inputted password is correct or not
+        /// If correct: open a new admin form. Else: do nothing
+        /// </summary>
         private void Login_Login_Click(object sender, System.EventArgs e)
         {
             if (PasswordInput_Login.Text == password)

@@ -4,9 +4,12 @@ using System.Net.Mail;
 
 namespace Scheduler
 {
+    /// <summary>
+    /// Class used for sending emails using google's smtp server
+    /// Currently not used for security reasons
+    /// </summary>
     public static class MailHelper
     {
-
         public static string SendMail(string[] mailAddresses, EventData eventData)
         {
             var smtpClient = new SmtpClient("smtp.gmail.com")

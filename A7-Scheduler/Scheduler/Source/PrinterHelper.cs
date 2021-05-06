@@ -9,8 +9,15 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Scheduler.Source
 {
+    /// <summary>
+    /// Class used for printing PDF-documents to files
+    /// </summary>
     static class PrinterHelper
     {
+
+        /// <summary>
+        /// Prints listView: <paramref name="listView"/> to a PDF saved as <paramref name="fileName"/>
+        /// </summary>
         public static void Print_ListView(ListView listView, string fileName)
         {
             Font pdfFont = new Font(Font.FontFamily.HELVETICA, 7.0f, Font.NORMAL);
@@ -74,6 +81,9 @@ namespace Scheduler.Source
             }
         }
 
+        /// <summary>
+        /// Prints the calendar: <paramref name="calForm"/> to a PDF, from date: <paramref name="date"/>
+        /// </summary>
         public static void Print_Calendar(CalendarForm calForm, DateTime date)
         {
             Font pdfFont = new Font(Font.FontFamily.HELVETICA, 6.0f, Font.NORMAL);
@@ -194,6 +204,9 @@ namespace Scheduler.Source
         }
 
 
+        /// <summary>
+        /// Prints charts over a specified month and year
+        /// </summary>
         public static void Print_Chart(CalendarForm calForm, int _month, int _year)
         {
             //Exporting to PDF
@@ -235,7 +248,9 @@ namespace Scheduler.Source
         }
 
 
-
+        /// <summary>
+        /// Function used to start a process which tries to open a file at path: <paramref name="path"/>
+        /// </summary>
         private static void TryOpenPDF(string path)
         {
             try
@@ -248,7 +263,9 @@ namespace Scheduler.Source
         }
 
 
-
+        /// <summary>
+        /// Helper function for converting a value of type Color to type BaseColor (, via html hex)
+        /// </summary>
         private static BaseColor ColorToBase(System.Drawing.Color color)
         {
             string hex = "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
@@ -256,6 +273,10 @@ namespace Scheduler.Source
         }
 
 
+        /// <summary>
+        /// Creates a chart from saved data displaying absence during a specified month
+        /// </summary>
+        /// <returns>A stream of bytes representing the chart, used for printing to PDF</returns>
         private static byte[] GetChartImage(int month, int year)
         {
             DateTime firstDate = new DateTime(year, month + 1, 1);

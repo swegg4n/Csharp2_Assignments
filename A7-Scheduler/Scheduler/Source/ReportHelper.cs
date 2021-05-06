@@ -1,10 +1,8 @@
 ﻿using Scheduler.Source;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Scheduler
 {
@@ -94,16 +92,6 @@ namespace Scheduler
         private static int GetBarWidth(int yValue, int maxVal, int maxWidth)
         {
             return (int)((float)yValue / (float)maxVal * maxWidth);
-        }
-
-
-        public static void CreateMonthSummary()
-        {
-
-        }
-        public static void CreateYearSummary()
-        {
-
         }
 
     }

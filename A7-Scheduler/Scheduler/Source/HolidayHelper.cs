@@ -2,15 +2,16 @@
 using Nager.Date.Model;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Scheduler
 {
+
+    /// <summary>
+    /// Class used to mange holidays, both national and customly created.
+    /// </summary>
     static class HolidayHelper
     {
         private static Dictionary<string, HolidayData> holidays = new Dictionary<string, HolidayData>();
@@ -18,6 +19,9 @@ namespace Scheduler
         private static DateTime lastDate;
 
 
+        /// <summary>
+        /// Refreshes the calendar-header with all holidays from date: <paramref name="startDate"/>
+        /// </summary>
         public static void UpdateHolidays(DateTime startDate, DataGridView header, Dictionary<Point, string> cellToolTips)
         {
             if (lastDate == null || lastDate.Year != startDate.Year)
@@ -38,6 +42,10 @@ namespace Scheduler
             DisplayHolidays(startDate, header, cellToolTips);
         }
 
+
+        /// <summary>
+        /// Adds all holidays to the "holdays" dictionary
+        /// </summary>
         private static void AddHolidays(int year)
         {
             holidays.Clear();
@@ -67,6 +75,9 @@ namespace Scheduler
         }
 
 
+        /// <summary>
+        /// Changes the headers color and tooltips based on holiday data
+        /// </summary>
         private static void DisplayHolidays(DateTime startDate, DataGridView header, Dictionary<Point, string> cellToolTips)
         {
             cellToolTips.Clear();
@@ -78,7 +89,7 @@ namespace Scheduler
                 if (dayDiff >= 0 && dayDiff <= 30)
                 {
                     DataGridViewCell cell = header[dayDiff, 1];
-                    cell.Style.BackColor = h.Value.GetColor();
+                    cell.Style.BackColor = h.Value.Color;
 
                     string toolTipMsg = $"{h.Key.Split('_')[0]}\n" +
                                         $"({h.Value.AbsenceType})\n";
@@ -94,6 +105,9 @@ namespace Scheduler
     }
 
 
+    /// <summary>
+    /// Data structure for capturing all information about holidays
+    /// </summary>
     class HolidayData
     {
         public HolidayData(DateTime date, string absenceType)
@@ -106,19 +120,22 @@ namespace Scheduler
         public string AbsenceType { get; }
 
 
-        public Color GetColor()
+        public Color Color
         {
-            switch (AbsenceType)
+            get
             {
-                case "Helgdag":
-                    return Color.Red;
-                case "Halvdag":
-                    return Color.LightSalmon;
-                case "Stängt":
-                    return Color.Orange;
+                switch (AbsenceType)
+                {
+                    case "Helgdag":
+                        return Color.Red;
+                    case "Halvdag":
+                        return Color.LightSalmon;
+                    case "Stängt":
+                        return Color.Orange;
 
-                default:
-                    return Color.White;
+                    default:
+                        return Color.White;
+                }
             }
         }
 

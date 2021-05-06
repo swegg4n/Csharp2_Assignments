@@ -278,6 +278,10 @@ namespace Scheduler
                 }
             }
         }
+
+        /// <summary>
+        /// Adds a specific event to cell: <paramref name="cell"/>
+        /// </summary>
         private void AddEvent(DataGridViewCell cell, EventData e)
         {
             cell.Value = e.EventType.EventNameShort;
@@ -300,6 +304,9 @@ namespace Scheduler
         }
 
 
+        /// <summary>
+        /// Function used for showing/hiding tooltips when cells are selected
+        /// </summary>
         private void CalGrid_Cal_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             Header_Cal.ClearSelection();
@@ -324,6 +331,10 @@ namespace Scheduler
                     1);
             }
         }
+
+        /// <summary>
+        /// Function used for showing/hiding tooltips when header-cells are selected
+        /// </summary>
         private void Header_Cal_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             CalGrid_Cal.ClearSelection();
@@ -431,6 +442,9 @@ namespace Scheduler
         #endregion
 
 
+        /// <summary>
+        /// Shows a vertical line indicating todays date
+        /// </summary>
         private void SetTodayIndicator()
         {
             int colWidth = (Header_Cal.Width - SystemInformation.VerticalScrollBarWidth) / 31;
