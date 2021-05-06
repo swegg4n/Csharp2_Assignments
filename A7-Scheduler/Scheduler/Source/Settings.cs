@@ -2,6 +2,9 @@
 
 namespace Scheduler
 {
+    /// <summary>
+    /// Settings stub. Should be used for easily changing settings
+    /// </summary>
     public static class Settings
     {
         public static Color tonedGreen = Color.FromArgb(181, 255, 169);

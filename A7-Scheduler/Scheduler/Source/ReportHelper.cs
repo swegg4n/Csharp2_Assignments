@@ -6,8 +6,15 @@ using System.Windows.Forms;
 
 namespace Scheduler
 {
+    /// <summary>
+    /// Helper class for creating different absence reports
+    /// </summary>
     public static class ReportHelper
     {
+
+        /// <summary>
+        /// Creates multiple bar graphs representing the absence on date: <paramref name="date"/>
+        /// </summary>
         public static void CreateOneDayReport(DateTime date, PartOfDay partOfDay, Panel panel)
         {
             List<UserData> users = SaveLoad.users.usersData;
@@ -36,7 +43,6 @@ namespace Scheduler
                 Settings.tonedYellow,
                 Settings.tonedYellow,
             };
-
 
             int[] absenceCount = new int[7] { 0, 0, 0, 0, 0, 0, 0, };
             List<string> countedUsers = new List<string>();
