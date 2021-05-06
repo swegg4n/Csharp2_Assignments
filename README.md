@@ -7,3 +7,4 @@
 [A4 - Animal Park 4](../../tree/master/A4-AnimalPark4/Assignment4)  
 [A5 - Control Tower](../../tree/master/A5-ControlTower/Assignment5)  
 [A6 - Invoice Reader](../../tree/master/A6-InvoiceReader/Assignment6)  
+[A7 - Scheduler](../..//tree/master/A7-Scheduler/Scheduler)  
