@@ -223,7 +223,7 @@ namespace Scheduler.Source
                     Document pdfDoc = new Document(PageSize.A4.Rotate(), 20f, 20f, 25f, 20f);
                     PdfWriter.GetInstance(pdfDoc, stream);
                     pdfDoc.Open();
-                     
+
                     iTextSharp.text.Paragraph p = new Paragraph($"Frånvarosummering - {month}, {year}\n");
                     p.SpacingAfter = 60;
                     pdfDoc.Add(p);
@@ -383,16 +383,15 @@ namespace Scheduler.Source
                     Series[] series = new Series[8];
 
                     System.Drawing.Color[] seriesColors = new System.Drawing.Color[8] {
-                        System.Drawing.Color.Red,
-                        System.Drawing.Color.Green,
-                        System.Drawing.Color.Blue,
-                        System.Drawing.Color.Cyan,
-                        System.Drawing.Color.Magenta,
-                        System.Drawing.Color.Yellow,
-                        System.Drawing.Color.Orange,
+                        Settings.tonedGreen,
+                        Settings.tonedGreen,
+                        Settings.tonedGreen,
+                        Settings.tonedBlue,
+                        Settings.tonedBlue,
+                        Settings.tonedYellow,
+                        Settings.tonedYellow,
                         System.Drawing.Color.Gray,
                     };
-
 
                     LegendItem legendItem = new LegendItem();
 
@@ -414,7 +413,7 @@ namespace Scheduler.Source
                                 series[s].Points.AddXY(i + 1, absenceCounts[i, s]);
                         }
 
-                        
+
                         Legend legend = new Legend(series[s].Name);
                         //legend.DockedToChartArea = cA.Name;
                         legend.Docking = Docking.Top;
@@ -423,12 +422,11 @@ namespace Scheduler.Source
                         legend.LegendStyle = LegendStyle.Table;
                         legend.Font = new System.Drawing.Font(font.FontFamily.Name, 22.0f);
                         //legend.BorderDashStyle = ChartDashStyle.Dash;
-                        legend.IsDockedInsideChartArea = true;
+                        legend.IsDockedInsideChartArea = false;
 
                         series[s].IsVisibleInLegend = true;
                         series[s].Color = seriesColors[s];
                         chart.Series.Add(series[s]);
-
                     }
                     chart.Series[7].IsValueShownAsLabel = true;
 

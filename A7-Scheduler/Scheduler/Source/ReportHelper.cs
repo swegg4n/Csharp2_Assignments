@@ -73,7 +73,6 @@ namespace Scheduler
             int totAbsence = 0;
             Array.ForEach(absenceCount, a => totAbsence += a);
 
-
             int xPos = 0;
             int yPos = -15;
             int spacingY_small = 15;
